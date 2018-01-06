@@ -1,10 +1,11 @@
 package config
 
 import (
-	"github.com/go-yaml/yaml"
-	m "github.com/lavrs/telegram-weather-bot/model"
+	"encoding/json"
 	"io/ioutil"
 	"log"
+
+	m "github.com/spacelavr/telegram-weather-bot/model"
 )
 
 // Cfg store config
@@ -24,11 +25,11 @@ func openFile() *m.Config {
 		data m.Config
 	)
 
-	if file, err = ioutil.ReadFile("config.yml"); err != nil {
+	if file, err = ioutil.ReadFile("config.json"); err != nil {
 		log.Panic(err)
 	}
 
-	if err := yaml.Unmarshal(file, &data); err != nil {
+	if err := json.Unmarshal(file, &data); err != nil {
 		log.Panic(err)
 	}
 

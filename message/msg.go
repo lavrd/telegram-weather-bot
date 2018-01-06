@@ -1,14 +1,15 @@
 package msg
 
 import (
-	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/lavrs/telegram-weather-bot/db"
-	l "github.com/lavrs/telegram-weather-bot/language"
-	"github.com/lavrs/telegram-weather-bot/model"
-	"github.com/lavrs/telegram-weather-bot/utils/errors"
-	"github.com/lavrs/telegram-weather-bot/utils/geocoding"
-	w "github.com/lavrs/telegram-weather-bot/weather"
 	"strings"
+
+	"github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/spacelavr/telegram-weather-bot/db"
+	l "github.com/spacelavr/telegram-weather-bot/language"
+	"github.com/spacelavr/telegram-weather-bot/model"
+	"github.com/spacelavr/telegram-weather-bot/utils/errors"
+	"github.com/spacelavr/telegram-weather-bot/utils/geocoding"
+	w "github.com/spacelavr/telegram-weather-bot/weather"
 )
 
 // SettingsMsg send settings message
@@ -96,16 +97,16 @@ func InfoMsg(bot *tgbotapi.BotAPI, telegramID int64) {
 	// send message with empty location
 	if user.Location == "" {
 		msg = tgbotapi.NewMessage(telegramID,
-			"*"+l.Language[user.Lang]["YourLLU"]+"*\n"+"`"+
-				l.Language[user.Lang]["empty_location"]+"`   "+
-				model.CountriesFATE[user.Lang]+"   *"+user.Units+"*")
+			"*" + l.Language[user.Lang]["YourLLU"] + "*\n" + "`"+
+				l.Language[user.Lang]["empty_location"]+ "`   "+
+				model.CountriesFATE[user.Lang]+ "   *"+ user.Units+ "*")
 	} else {
 		// send with user location
 		msg = tgbotapi.NewMessage(telegramID,
-			"*"+l.Language[user.Lang]["YourLLU"]+"*\n"+"`"+
-				user.Location+"`   "+
-				model.CountriesFATE[user.Lang]+"   *"+
-				user.Units+"*")
+			"*" + l.Language[user.Lang]["YourLLU"] + "*\n" + "`"+
+				user.Location+ "`   "+
+				model.CountriesFATE[user.Lang]+ "   *"+
+				user.Units+ "*")
 	}
 
 	msg.ReplyMarkup = mainKeyboard(user.Lang)
@@ -133,7 +134,7 @@ func UpdateLangMsg(bot *tgbotapi.BotAPI, telegramID int64, message string) {
 		db.SetUser(telegramID, nil, model.CountriesFETA[message])
 
 		msg = tgbotapi.NewMessage(telegramID,
-			l.Language[model.CountriesFETA[message]]["changeLanguageTo"]+" "+
+			l.Language[model.CountriesFETA[message]]["changeLanguageTo"] + " "+
 				model.CountriesFATE[model.CountriesFETA[message]])
 		msg.ReplyMarkup = mainKeyboard(model.CountriesFETA[message])
 	}

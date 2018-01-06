@@ -1,10 +1,10 @@
 package forecast
 
 import (
-	c "github.com/lavrs/telegram-weather-bot/config"
-	"github.com/lavrs/telegram-weather-bot/utils/errors"
-	u "github.com/lavrs/telegram-weather-bot/utils/format"
 	"github.com/mlbright/forecast/v2"
+	c "github.com/spacelavr/telegram-weather-bot/config"
+	"github.com/spacelavr/telegram-weather-bot/utils/errors"
+	u "github.com/spacelavr/telegram-weather-bot/utils/format"
 )
 
 // GetForecast get weather forecast

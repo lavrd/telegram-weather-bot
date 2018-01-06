@@ -1,13 +1,14 @@
 package db
 
 import (
-	m "github.com/lavrs/telegram-weather-bot/model"
-	"github.com/lavrs/telegram-weather-bot/utils/errors"
-	"github.com/lavrs/telegram-weather-bot/utils/geocoding"
-	"github.com/mlbright/forecast/v2"
-	"googlemaps.github.io/maps"
-	r "gopkg.in/gorethink/gorethink.v3"
 	"log"
+
+	"github.com/mlbright/forecast/v2"
+	m "github.com/spacelavr/telegram-weather-bot/model"
+	"github.com/spacelavr/telegram-weather-bot/utils/errors"
+	"github.com/spacelavr/telegram-weather-bot/utils/geocoding"
+	"googlemaps.github.io/maps"
+	r "gopkg.in/gorethink/gorethink.v4"
 )
 
 const (

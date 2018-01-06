@@ -1,9 +1,9 @@
 package db
 
 import (
-	m "github.com/lavrs/telegram-weather-bot/model"
-	"github.com/lavrs/telegram-weather-bot/utils/errors"
-	r "gopkg.in/gorethink/gorethink.v3"
+	m "github.com/spacelavr/telegram-weather-bot/model"
+	"github.com/spacelavr/telegram-weather-bot/utils/errors"
+	r "gopkg.in/gorethink/gorethink.v4"
 )
 
 // create rethink db

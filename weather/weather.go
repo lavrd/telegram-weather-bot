@@ -1,8 +1,8 @@
 package weather
 
 import (
-	"github.com/lavrs/telegram-weather-bot/model"
-	"github.com/lavrs/telegram-weather-bot/utils/forecast"
+	"github.com/spacelavr/telegram-weather-bot/model"
+	"github.com/spacelavr/telegram-weather-bot/utils/forecast"
 )
 
 // CurrentWeather returns weather for now from location name

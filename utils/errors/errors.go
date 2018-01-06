@@ -1,9 +1,10 @@
 package errors
 
 import (
-	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/lavrs/telegram-weather-bot/config"
 	"log"
+
+	"github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/spacelavr/telegram-weather-bot/config"
 )
 
 // Check check for new errors

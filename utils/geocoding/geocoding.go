@@ -3,10 +3,11 @@ package geocoding
 import (
 	"context"
 	e "errors"
+
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	c "github.com/lavrs/telegram-weather-bot/config"
-	l "github.com/lavrs/telegram-weather-bot/language"
-	"github.com/lavrs/telegram-weather-bot/utils/errors"
+	c "github.com/spacelavr/telegram-weather-bot/config"
+	l "github.com/spacelavr/telegram-weather-bot/language"
+	"github.com/spacelavr/telegram-weather-bot/utils/errors"
 	"googlemaps.github.io/maps"
 )
 

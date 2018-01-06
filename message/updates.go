@@ -1,10 +1,11 @@
 package msg
 
 import (
-	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/lavrs/telegram-weather-bot/model"
-	"golang.org/x/text/language"
 	"strings"
+
+	"github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/spacelavr/telegram-weather-bot/model"
+	"golang.org/x/text/language"
 )
 
 // Updates check for new user messages
