@@ -4,20 +4,16 @@ import (
 	"strings"
 
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/spacelavr/telegram-weather-bot/model"
+	"github.com/spacelavr/telegram-weather-bot/pkg/model"
 	"golang.org/x/text/language"
 )
 
-// Updates check for new user messages
 func Updates(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
-	// if message empty, return
 	if update.Message == nil {
 		return
 	}
 
 	update.Message.Text = strings.ToLower(update.Message.Text)
-
-	// user send command
 
 	if update.Message.Command() == "start" {
 		StartMsg(bot, update.Message.Chat.ID)
@@ -95,6 +91,5 @@ func Updates(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
 		return
 	}
 
-	// user send city name
 	WeatherMsgFromCity(bot, update.Message.Chat.ID, update.Message.Text)
 }

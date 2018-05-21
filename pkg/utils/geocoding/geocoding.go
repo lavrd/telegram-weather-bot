@@ -2,21 +2,20 @@ package geocoding
 
 import (
 	"context"
-	e "errors"
+	"errors"
 
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	c "github.com/spacelavr/telegram-weather-bot/config"
-	l "github.com/spacelavr/telegram-weather-bot/language"
-	"github.com/spacelavr/telegram-weather-bot/utils/errors"
+	"github.com/spacelavr/telegram-weather-bot/pkg/config"
+	"github.com/spacelavr/telegram-weather-bot/pkg/language"
+	ue "github.com/spacelavr/telegram-weather-bot/pkg/utils/errors"
 	"googlemaps.github.io/maps"
 )
 
-// ReverseGeocode geocoding location to location name
 func ReverseGeocode(location *tgbotapi.Location, lang string) ([]maps.GeocodingResult, error) {
 	var g []maps.GeocodingResult
 
-	client, err := maps.NewClient(maps.WithAPIKey(c.Cfg.GoogleGeocodingToken))
-	errors.Check(err)
+	client, err := maps.NewClient(maps.WithAPIKey(config.Viper.Google.Geocoding.Token))
+	ue.Check(err)
 
 	latLng := &maps.LatLng{
 		Lat: location.Latitude,
@@ -30,21 +29,20 @@ func ReverseGeocode(location *tgbotapi.Location, lang string) ([]maps.GeocodingR
 
 	if g, err = client.ReverseGeocode(context.Background(), r); err != nil {
 		if err.Error() == "maps: ZERO_RESULTS - " {
-			return nil, e.New("_" + l.Language[lang]["ZERO_RESULTS_LOCATION"] + "_")
+			return nil, errors.New("_" + language.Language[lang]["ZERO_RESULTS_LOCATION"] + "_")
 		} else {
-			return nil, e.New("_" + l.Language[lang]["unknownError"] + "_")
+			return nil, errors.New("_" + language.Language[lang]["unknownError"] + "_")
 		}
 	}
 
 	return g, nil
 }
 
-// Geocode geocoding location name to location
 func Geocode(location, lang string) ([]maps.GeocodingResult, error) {
 	var g []maps.GeocodingResult
 
-	client, err := maps.NewClient(maps.WithAPIKey(c.Cfg.GoogleGeocodingToken))
-	errors.Check(err)
+	client, err := maps.NewClient(maps.WithAPIKey(config.Viper.Google.Geocoding.Token))
+	ue.Check(err)
 
 	r := &maps.GeocodingRequest{
 		Address:  location,
@@ -53,9 +51,9 @@ func Geocode(location, lang string) ([]maps.GeocodingResult, error) {
 
 	if g, err = client.Geocode(context.Background(), r); err != nil {
 		if err.Error() == "maps: ZERO_RESULTS - " {
-			return nil, e.New("_" + l.Language[lang]["ZERO_RESULTS_CITY"] + "_")
+			return nil, errors.New("_" + language.Language[lang]["ZERO_RESULTS_CITY"] + "_")
 		} else {
-			return nil, e.New("_" + l.Language[lang]["unknownError"] + "_")
+			return nil, errors.New("_" + language.Language[lang]["unknownError"] + "_")
 		}
 	}
 

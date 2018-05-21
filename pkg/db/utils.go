@@ -1,24 +1,21 @@
 package db
 
 import (
-	m "github.com/spacelavr/telegram-weather-bot/model"
-	"github.com/spacelavr/telegram-weather-bot/utils/errors"
+	"github.com/spacelavr/telegram-weather-bot/pkg/model"
+	"github.com/spacelavr/telegram-weather-bot/pkg/utils/errors"
 	r "gopkg.in/gorethink/gorethink.v4"
 )
 
-// create rethink db
 func createTelegramDB() {
 	_, err := r.DBCreate(db).RunWrite(session)
 	errors.Check(err)
 }
 
-// create rethink table
 func createUsersTable() {
 	_, err := r.TableCreate(table).RunWrite(session)
 	errors.Check(err)
 }
 
-// decode rethink quert result
 func decodeOneBoolQueryResult(c *r.Cursor) (bool, error) {
 	var res bool
 	if err := c.One(&res); err != nil {
@@ -27,10 +24,8 @@ func decodeOneBoolQueryResult(c *r.Cursor) (bool, error) {
 	return res, nil
 }
 
-// get user from db
-func getUser(telegramID int64) *m.DB {
-	res, err := r.Table(table).Filter(
-		r.Row.Field("telegramID").Eq(telegramID)).Run(session)
+func getUser(telegramID int64) *model.DB {
+	res, err := r.Table(table).Filter(r.Row.Field("telegramID").Eq(telegramID)).Run(session)
 	errors.Check(err)
 	defer res.Close()
 
@@ -38,17 +33,15 @@ func getUser(telegramID int64) *m.DB {
 		return nil
 	}
 
-	var user m.DB
+	var user model.DB
 	err = res.One(&user)
 	errors.Check(err)
 
 	return &user
 }
 
-// get user ID from db
 func getUserID(telegramID int64) *string {
-	res, err := r.Table(table).Filter(
-		r.Row.Field("telegramID").Eq(telegramID)).Field("id").Run(session)
+	res, err := r.Table(table).Filter(r.Row.Field("telegramID").Eq(telegramID)).Field("id").Run(session)
 	errors.Check(err)
 	defer res.Close()
 
@@ -63,7 +56,6 @@ func getUserID(telegramID int64) *string {
 	return &ID
 }
 
-// check db, table exists
 func isTableAndDB() {
 	query, err := r.DBList().Contains(db).Run(session)
 	errors.Check(err)

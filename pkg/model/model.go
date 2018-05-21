@@ -1,16 +1,5 @@
 package model
 
-// bot config
-type Config struct {
-	TelegramToken        string `json:"telegram-token"`
-	TelegramTestToken    string `json:"telegram-test-token"`
-	DarkskyToken         string `json:"darksky-token"`
-	GoogleGeocodingToken string `json:"google-geocoding-token"`
-	MyTelegramID         int64  `json:"my-telegram-id"`
-	ServerAddr           string `json:"server_addr"`
-}
-
-// db struct
 type DB struct {
 	TelegramID int64   `gorethink:"telegramID"`
 	Location   string  `gorethink:"location"`
@@ -33,7 +22,6 @@ var (
 		"en": "\xF0\x9F\x87\xAC\xF0\x9F\x87\xA7",
 	}
 
-	// emoji
 	Help              = "\xF0\x9F\x86\x98"
 	GlobeWithMeridian = "\xF0\x9F\x8C\x90"
 	Info              = "\xE2\x84\xB9"
@@ -43,7 +31,6 @@ var (
 	TriangularRuler   = "\xF0\x9F\x93\x90"
 	Back              = "\xE2\x97\x80"
 
-	// moons emoji
 	Moons = map[string]string{
 		"new moon":           "\xF0\x9F\x8C\x91",
 		"first quarter moon": "\xF0\x9F\x8C\x93",
@@ -51,7 +38,6 @@ var (
 		"last quarter moon":  "\xF0\x9F\x8C\x97",
 	}
 
-	// weather icons emoji
 	Icons = map[string]string{
 		"clear-day":           "\xE2\x98\x80",
 		"clear-night":         "\xF0\x9F\x8C\x99",
@@ -65,7 +51,6 @@ var (
 		"fog":                 "\xF0\x9F\x8C\xAB",
 	}
 
-	// directions emoji
 	Directions = [16]string{
 		"\xE2\xAC\x86",
 		"\xE2\x86\x97",

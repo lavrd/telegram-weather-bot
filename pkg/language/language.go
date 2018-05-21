@@ -1,6 +1,6 @@
 package language
 
-import "github.com/spacelavr/telegram-weather-bot/model"
+import "github.com/spacelavr/telegram-weather-bot/pkg/model"
 
 // ru / eng language dictionary
 var (
@@ -47,32 +47,32 @@ var (
 		},
 
 		"ru": {
-			"mps": "м/с",
-			"mph": "миль/ч",
-			"IFL": "Чувствуется как",
+			"mps":                   "м/с",
+			"mph":                   "миль/ч",
+			"IFL":                   "Чувствуется как",
 			"ZERO_RESULTS_LOCATION": "Невозможно выдать погоду по данным координатам",
-			"now":               "Сейчас",
-			"forToday":          "На сегодня",
-			"forTomorrow":       "На завтра",
-			"forWeek":           "На неделю",
-			"changeLanguageTo":  "Язык изменен на",
-			"changeUnits":       "Единицы измерения изменены на",
-			"ZERO_RESULTS_CITY": "Невозможо выдать погоду в данном городе",
-			"changeCityTo":      "Город изменен на",
-			"emptycity":         "Введите город, чтобы получить актуальную погоду",
-			"Monday":            "Пн",
-			"Tuesday":           "Вт",
-			"Wednesday":         "Ср",
-			"Thursday":          "Чт",
-			"Friday":            "Пт",
-			"Saturday":          "Сб",
-			"Sunday":            "Вс",
-			"YourLLU":           "Ваша локация, язык и единицы измерения",
-			"empty_location":    "Пустое местоположение",
-			"°C, mps":           "°C, м/c",
-			"°F, mph":           "°F, миль/ч",
-			"mainMenu":          "Главное меню",
-			"unknownError":      "Неизвестная ошибка, попробуйте позже.",
+			"now":                   "Сейчас",
+			"forToday":              "На сегодня",
+			"forTomorrow":           "На завтра",
+			"forWeek":               "На неделю",
+			"changeLanguageTo":      "Язык изменен на",
+			"changeUnits":           "Единицы измерения изменены на",
+			"ZERO_RESULTS_CITY":     "Невозможо выдать погоду в данном городе",
+			"changeCityTo":          "Город изменен на",
+			"emptycity":             "Введите город, чтобы получить актуальную погоду",
+			"Monday":                "Пн",
+			"Tuesday":               "Вт",
+			"Wednesday":             "Ср",
+			"Thursday":              "Чт",
+			"Friday":                "Пт",
+			"Saturday":              "Сб",
+			"Sunday":                "Вс",
+			"YourLLU":               "Ваша локация, язык и единицы измерения",
+			"empty_location":        "Пустое местоположение",
+			"°C, mps":               "°C, м/c",
+			"°F, mph":               "°F, миль/ч",
+			"mainMenu":              "Главное меню",
+			"unknownError":          "Неизвестная ошибка, попробуйте позже.",
 
 			"help": "Бот показывает *текущую* погоду, а также на *сегодня*, *завтра* и *неделю*.\n\n" +
 				"*Сейчас* - текущая погода\n" +

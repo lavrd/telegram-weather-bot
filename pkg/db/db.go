@@ -4,9 +4,10 @@ import (
 	"log"
 
 	"github.com/mlbright/forecast/v2"
-	m "github.com/spacelavr/telegram-weather-bot/model"
-	"github.com/spacelavr/telegram-weather-bot/utils/errors"
-	"github.com/spacelavr/telegram-weather-bot/utils/geocoding"
+	"github.com/spacelavr/telegram-weather-bot/pkg/config"
+	"github.com/spacelavr/telegram-weather-bot/pkg/model"
+	"github.com/spacelavr/telegram-weather-bot/pkg/utils/errors"
+	"github.com/spacelavr/telegram-weather-bot/pkg/utils/geocoding"
 	"googlemaps.github.io/maps"
 	r "gopkg.in/gorethink/gorethink.v4"
 )
@@ -22,29 +23,22 @@ var (
 )
 
 func init() {
-	// open db session (connect to db)
 	if session, err = r.Connect(r.ConnectOpts{
-		Address:  "172.17.0.2:28015",
+		Address:  config.Viper.Database.Endpoint,
 		Database: db,
 	}); err != nil {
-		log.Panic(err)
+		log.Fatal(err)
 	}
 
-	// check if db and table exists
 	isTableAndDB()
 }
 
-// UpdateUserLang update user lang
-func UpdateUserLang(user *m.DB, lang string, telegramID int64) string {
+func UpdateUserLang(user *model.DB, lang string, telegramID int64) string {
 	ID := getUserID(telegramID)
 
-	// if user lang == lang, no need to change lang
 	if user.Lang == lang {
 		return lang
 	} else if user.Location != "" {
-		// if user location is exists, translate location
-
-		// geocoding in another language
 		g, err := geocoding.Geocode(user.Location, lang)
 		errors.Check(err)
 
@@ -55,21 +49,20 @@ func UpdateUserLang(user *m.DB, lang string, telegramID int64) string {
 
 		_, err = r.Table(table).Get(ID).Update(data).RunWrite(session)
 		errors.Check(err)
+
 		return lang
 	} else {
-		// just change language if user location is empty
-
 		var data = map[string]interface{}{
 			"lang": lang,
 		}
 
 		_, err := r.Table(table).Get(ID).Update(data).RunWrite(session)
 		errors.Check(err)
+
 		return lang
 	}
 }
 
-// UpdateUserUnits update user units
 func UpdateUserUnits(telegramID int64, units string) {
 	if units == "°c, mps" || units == "°c, м/c" {
 		units = string(forecast.SI)
@@ -85,7 +78,6 @@ func UpdateUserUnits(telegramID int64, units string) {
 	errors.Check(err)
 }
 
-// update user location
 func updateUserLocation(ID string, g []maps.GeocodingResult) {
 	var data = map[string]interface{}{
 		"location": g[0].FormattedAddress,
@@ -97,11 +89,8 @@ func updateUserLocation(ID string, g []maps.GeocodingResult) {
 	errors.Check(err)
 }
 
-// SetUser set new user
 func SetUser(telegramID int64, g []maps.GeocodingResult, lang string) {
 	userID := getUserID(telegramID)
-
-	// if user already exists, update user
 	if userID != nil {
 		updateUserLocation(*userID, g)
 		return
@@ -118,11 +107,8 @@ func SetUser(telegramID int64, g []maps.GeocodingResult, lang string) {
 	errors.Check(err)
 }
 
-// IsAuth check auth
-// if user auth, returns user info
-func IsAuth(telegramID int64) (bool, *m.DB) {
+func IsAuth(telegramID int64) (bool, *model.DB) {
 	user := getUser(telegramID)
-
 	if user == nil {
 		return false, nil
 	}

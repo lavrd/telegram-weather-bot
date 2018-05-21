@@ -22,8 +22,16 @@
 
 
 [[constraint]]
+  branch = "master"
   name = "github.com/go-telegram-bot-api/telegram-bot-api"
-  version = "4.6.1"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/spf13/cobra"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/spf13/viper"
 
 [[constraint]]
   branch = "master"

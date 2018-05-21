@@ -2,12 +2,11 @@ package msg
 
 import (
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	l "github.com/spacelavr/telegram-weather-bot/language"
-	"github.com/spacelavr/telegram-weather-bot/model"
+	l "github.com/spacelavr/telegram-weather-bot/pkg/language"
+	"github.com/spacelavr/telegram-weather-bot/pkg/model"
 	"golang.org/x/text/language"
 )
 
-// main bot keyboard
 func mainKeyboard(lang string) tgbotapi.ReplyKeyboardMarkup {
 	return tgbotapi.NewReplyKeyboard(
 		[]tgbotapi.KeyboardButton{
@@ -26,7 +25,6 @@ func mainKeyboard(lang string) tgbotapi.ReplyKeyboardMarkup {
 	)
 }
 
-// units keyboard
 func unitsKeyboard(lang string) tgbotapi.ReplyKeyboardMarkup {
 	return tgbotapi.NewReplyKeyboard(
 		[]tgbotapi.KeyboardButton{
@@ -37,7 +35,6 @@ func unitsKeyboard(lang string) tgbotapi.ReplyKeyboardMarkup {
 	)
 }
 
-// settings keyboard
 func settingsKeyboard() tgbotapi.ReplyKeyboardMarkup {
 	return tgbotapi.NewReplyKeyboard(
 		[]tgbotapi.KeyboardButton{
@@ -48,7 +45,6 @@ func settingsKeyboard() tgbotapi.ReplyKeyboardMarkup {
 	)
 }
 
-// language keyboard
 func langKeyboard() tgbotapi.ReplyKeyboardMarkup {
 	return tgbotapi.NewReplyKeyboard(
 		[]tgbotapi.KeyboardButton{
@@ -59,7 +55,6 @@ func langKeyboard() tgbotapi.ReplyKeyboardMarkup {
 	)
 }
 
-// help keyboard
 func helpKeyboard() tgbotapi.ReplyKeyboardMarkup {
 	return tgbotapi.NewReplyKeyboard(
 		[]tgbotapi.KeyboardButton{

@@ -1,0 +1,15 @@
+google:
+  geocoding:
+    token: env
+
+darksky:
+  token: env
+
+telegram:
+  error:
+    admin: 0000000
+    send: false
+  token: env
+
+database:
+  endpoint: 172.17.0.2:28015
