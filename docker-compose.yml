@@ -8,5 +8,5 @@ services:
   bot:
     container_name: tw-bot
     build: .
-    depends_on:
+    links:
       - rethinkdb
