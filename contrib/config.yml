@@ -12,4 +12,4 @@ telegram:
   token: env
 
 database:
-  endpoint: 172.17.0.2:28015
+  endpoint: 127.0.0.17:28015
