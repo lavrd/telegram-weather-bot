@@ -5,6 +5,8 @@ services:
     image: rethinkdb
     ports:
       - 28015:28015
+      - 8080
+      - 29015:29015
   bot:
     container_name: tw-bot
     build: .
