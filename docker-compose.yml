@@ -8,5 +8,10 @@ services:
   bot:
     container_name: tw-bot
     build: .
+    enviroment:
+      - telegram.token=token
+      - telegram.error.admin=0000000
+      - darksky.token=
+      - google.geocoding.token=
     links:
       - rethinkdb
