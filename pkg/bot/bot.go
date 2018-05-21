@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/spacelavr/telegram-weather-bot/pkg/config"
+	"github.com/spacelavr/telegram-weather-bot/pkg/db"
 	"github.com/spacelavr/telegram-weather-bot/pkg/message"
 )
 
@@ -20,6 +21,8 @@ func Daemon() {
 	u.Timeout = 60
 
 	updates, err := bot.GetUpdatesChan(u)
+
+	db.Init()
 
 	for update := range updates {
 		msg.Updates(bot, update)

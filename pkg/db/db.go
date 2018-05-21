@@ -1,8 +1,6 @@
 package db
 
 import (
-	"log"
-
 	"github.com/mlbright/forecast/v2"
 	"github.com/spacelavr/telegram-weather-bot/pkg/config"
 	"github.com/spacelavr/telegram-weather-bot/pkg/model"
@@ -19,16 +17,15 @@ const (
 
 var (
 	session *r.Session
-	err     error
 )
 
-func init() {
-	if session, err = r.Connect(r.ConnectOpts{
+func Init() {
+	var err error
+	session, err = r.Connect(r.ConnectOpts{
 		Address:  config.Viper.Database.Endpoint,
 		Database: db,
-	}); err != nil {
-		log.Fatal(err)
-	}
+	})
+	errors.Check(err)
 
 	isTableAndDB()
 }
