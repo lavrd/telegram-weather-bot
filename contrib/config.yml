@@ -7,7 +7,7 @@ darksky:
 
 telegram:
   error:
-    admin: 0000000
+    admin: env
     send: false
   token: env
 
