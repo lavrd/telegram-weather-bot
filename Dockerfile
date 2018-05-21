@@ -9,4 +9,4 @@ RUN dep ensure
 WORKDIR /go/src/telegram-weather-bot/cmd/bot
 RUN go build
 
-CMD ["bot"]
+CMD ["./bot"]
