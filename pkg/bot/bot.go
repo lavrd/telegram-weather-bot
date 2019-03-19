@@ -4,9 +4,9 @@ import (
 	"log"
 
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/spacelavr/telegram-weather-bot/pkg/config"
-	"github.com/spacelavr/telegram-weather-bot/pkg/db"
-	"github.com/spacelavr/telegram-weather-bot/pkg/message"
+	"telegram-weather-bot/pkg/config"
+	"telegram-weather-bot/pkg/db"
+	"telegram-weather-bot/pkg/message"
 )
 
 func Daemon() {

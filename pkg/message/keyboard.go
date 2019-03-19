@@ -2,8 +2,8 @@ package msg
 
 import (
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	l "github.com/spacelavr/telegram-weather-bot/pkg/language"
-	"github.com/spacelavr/telegram-weather-bot/pkg/model"
+	l "telegram-weather-bot/pkg/language"
+	"telegram-weather-bot/pkg/model"
 	"golang.org/x/text/language"
 )
 

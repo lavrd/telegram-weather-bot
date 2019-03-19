@@ -2,10 +2,10 @@ package weather
 
 import (
 	"github.com/mlbright/forecast/v2"
-	"github.com/spacelavr/telegram-weather-bot/pkg/language"
-	"github.com/spacelavr/telegram-weather-bot/pkg/model"
-	"github.com/spacelavr/telegram-weather-bot/pkg/utils/errors"
-	"github.com/spacelavr/telegram-weather-bot/pkg/utils/format"
+	"telegram-weather-bot/pkg/language"
+	"telegram-weather-bot/pkg/model"
+	"telegram-weather-bot/pkg/utils/errors"
+	"telegram-weather-bot/pkg/utils/format"
 
 	"math"
 	"time"

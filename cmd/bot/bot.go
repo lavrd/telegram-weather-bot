@@ -5,8 +5,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/spacelavr/telegram-weather-bot/pkg/bot"
-	"github.com/spacelavr/telegram-weather-bot/pkg/config"
+	"telegram-weather-bot/pkg/bot"
+	"telegram-weather-bot/pkg/config"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/spacelavr/telegram-weather-bot/pkg/config"
+	"telegram-weather-bot/pkg/config"
 )
 
 func Check(err error) {

@@ -4,12 +4,12 @@ import (
 	"strings"
 
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/spacelavr/telegram-weather-bot/pkg/db"
-	"github.com/spacelavr/telegram-weather-bot/pkg/language"
-	"github.com/spacelavr/telegram-weather-bot/pkg/model"
-	"github.com/spacelavr/telegram-weather-bot/pkg/utils/errors"
-	"github.com/spacelavr/telegram-weather-bot/pkg/utils/geocoding"
-	"github.com/spacelavr/telegram-weather-bot/pkg/weather"
+	"telegram-weather-bot/pkg/db"
+	"telegram-weather-bot/pkg/language"
+	"telegram-weather-bot/pkg/model"
+	"telegram-weather-bot/pkg/utils/errors"
+	"telegram-weather-bot/pkg/utils/geocoding"
+	"telegram-weather-bot/pkg/weather"
 )
 
 func SettingsMsg(bot *tgbotapi.BotAPI, telegramID int64) {

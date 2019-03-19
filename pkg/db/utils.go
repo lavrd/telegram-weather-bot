@@ -1,8 +1,8 @@
 package db
 
 import (
-	"github.com/spacelavr/telegram-weather-bot/pkg/model"
-	"github.com/spacelavr/telegram-weather-bot/pkg/utils/errors"
+	"telegram-weather-bot/pkg/model"
+	"telegram-weather-bot/pkg/utils/errors"
 	r "gopkg.in/gorethink/gorethink.v4"
 )
 

@@ -1,6 +1,6 @@
 package language
 
-import "github.com/spacelavr/telegram-weather-bot/pkg/model"
+import "telegram-weather-bot/pkg/model"
 
 // ru / eng language dictionary
 var (

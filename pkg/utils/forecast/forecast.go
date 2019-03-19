@@ -1,10 +1,11 @@
 package forecast
 
 import (
-	"github.com/mlbright/forecast/v2"
-	"github.com/spacelavr/telegram-weather-bot/pkg/config"
-	"github.com/spacelavr/telegram-weather-bot/pkg/utils/errors"
-	"github.com/spacelavr/telegram-weather-bot/pkg/utils/format"
+	"telegram-weather-bot/pkg/config"
+	"telegram-weather-bot/pkg/utils/errors"
+	"telegram-weather-bot/pkg/utils/format"
+
+	forecast "github.com/mlbright/darksky/v2"
 )
 
 func GetForecast(lat, lng float64, lang, units string) *forecast.Forecast {

@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/spacelavr/telegram-weather-bot/pkg/model"
+	"telegram-weather-bot/pkg/model"
 	"golang.org/x/text/language"
 )
 

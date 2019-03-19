@@ -5,9 +5,9 @@ import (
 	"errors"
 
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/spacelavr/telegram-weather-bot/pkg/config"
-	"github.com/spacelavr/telegram-weather-bot/pkg/language"
-	ue "github.com/spacelavr/telegram-weather-bot/pkg/utils/errors"
+	"telegram-weather-bot/pkg/config"
+	"telegram-weather-bot/pkg/language"
+	ue "telegram-weather-bot/pkg/utils/errors"
 	"googlemaps.github.io/maps"
 )
 

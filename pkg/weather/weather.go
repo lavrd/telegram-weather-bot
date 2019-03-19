@@ -1,8 +1,8 @@
 package weather
 
 import (
-	"github.com/spacelavr/telegram-weather-bot/pkg/model"
-	"github.com/spacelavr/telegram-weather-bot/pkg/utils/forecast"
+	"telegram-weather-bot/pkg/model"
+	"telegram-weather-bot/pkg/utils/forecast"
 )
 
 func CurrentWeather(lat, lng float64, location string, user *model.DB) string {

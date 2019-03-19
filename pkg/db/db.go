@@ -2,10 +2,10 @@ package db
 
 import (
 	"github.com/mlbright/forecast/v2"
-	"github.com/spacelavr/telegram-weather-bot/pkg/config"
-	"github.com/spacelavr/telegram-weather-bot/pkg/model"
-	"github.com/spacelavr/telegram-weather-bot/pkg/utils/errors"
-	"github.com/spacelavr/telegram-weather-bot/pkg/utils/geocoding"
+	"telegram-weather-bot/pkg/config"
+	"telegram-weather-bot/pkg/model"
+	"telegram-weather-bot/pkg/utils/errors"
+	"telegram-weather-bot/pkg/utils/geocoding"
 	"googlemaps.github.io/maps"
 	r "gopkg.in/gorethink/gorethink.v4"
 )
