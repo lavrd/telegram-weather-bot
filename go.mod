@@ -5,6 +5,8 @@ go 1.12
 require (
 	github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible
 	github.com/google/uuid v1.1.1 // indirect
+	github.com/mlbright/darksky v0.0.0-20190903032611-d133a40b35ab
+	github.com/mlbright/forecast v0.0.0-20190903032611-d133a40b35ab
 	github.com/spf13/cobra v0.0.3
 	github.com/spf13/viper v1.3.2
 	github.com/technoweenie/multipartstreamer v1.0.1 // indirect

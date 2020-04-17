@@ -1,24 +1,20 @@
 package config
 
-var (
-	Viper = &struct {
-		Google struct {
-			Geocoding struct {
-				Token string
-			}
-		}
-		Darksky struct {
+var Cfg = &struct {
+	Google struct {
+		Geocoding struct {
 			Token string
 		}
-		Telegram struct {
-			Error struct {
-				Admin int64
-				Send  bool
-			}
-			Token string
+	}
+	// OpenWeatherMap config
+	OWM struct {
+		Token string
+	}
+	Telegram struct {
+		Token string
+		Error struct {
+			Admin int64
 		}
-		Database struct {
-			Endpoint string
-		}
-	}{}
-)
+	}
+	DSN string
+}{}
