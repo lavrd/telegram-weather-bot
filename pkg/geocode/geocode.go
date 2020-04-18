@@ -1,7 +1,7 @@
 package geocode
 
 type Result struct {
-	Addr     string
+	Location string
 	Lat, Lon float64
 }
 

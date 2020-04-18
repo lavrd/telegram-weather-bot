@@ -42,7 +42,7 @@ func (b *Bot) Stop() error {
 }
 
 func New(cfg *config.Config) (*Bot, error) {
-	tgBotClient, err := tgbotapi.NewBotAPI(cfg.Telegram.Token)
+	tgBotClient, err := tgbotapi.NewBotAPI(cfg.TelegramToken)
 	if err != nil {
 		return nil, err
 	}

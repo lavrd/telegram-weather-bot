@@ -25,9 +25,9 @@ func (g *Google) Geocode(location, lang string) (*geocode.Result, error) {
 	res := ress[0]
 
 	return &geocode.Result{
-		Addr: res.FormattedAddress,
-		Lat:  res.Geometry.Location.Lat,
-		Lon:  res.Geometry.Location.Lng,
+		Location: res.FormattedAddress,
+		Lat:      res.Geometry.Location.Lat,
+		Lon:      res.Geometry.Location.Lng,
 	}, nil
 }
 
@@ -47,9 +47,9 @@ func (g *Google) Reverse(lat, lon float64, lang string) (*geocode.Result, error)
 	res := ress[0]
 
 	return &geocode.Result{
-		Addr: res.FormattedAddress,
-		Lat:  res.Geometry.Location.Lat,
-		Lon:  res.Geometry.Location.Lng,
+		Location: res.FormattedAddress,
+		Lat:      res.Geometry.Location.Lat,
+		Lon:      res.Geometry.Location.Lng,
 	}, nil
 }
 
