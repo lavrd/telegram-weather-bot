@@ -6,15 +6,15 @@ import (
 	"github.com/pkg/errors"
 )
 
-const DBName = "telegram-weather-bot"
-
 var (
 	ErrUserNotFound = errors.New("user not found")
 )
 
 type Storage interface {
+	CreateUser(telegramID int64, lang string) error
 	GetUser(telegramID int64) (types.User, error)
 	UpdateUserUnits(telegramID int64, units string) error
+	UpdateUserLang(telegramID int64, lang string) error
 
 	Close() error
 }

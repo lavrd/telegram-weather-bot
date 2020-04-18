@@ -1,9 +1,12 @@
 package rethinkdb
 
 import (
-	"telegram-weather-bot/pkg/storage"
-
 	"gopkg.in/gorethink/gorethink.v4"
+)
+
+const (
+	databaseName  = "telegram-weather-bot"
+	userTableName = "user"
 )
 
 type RethinkDB struct {
@@ -17,7 +20,7 @@ func (r *RethinkDB) Close() error {
 func New(dsn string) (*RethinkDB, error) {
 	session, err := gorethink.Connect(gorethink.ConnectOpts{
 		Address:  dsn,
-		Database: storage.DBName,
+		Database: databaseName,
 	})
 	if err != nil {
 		return nil, err
