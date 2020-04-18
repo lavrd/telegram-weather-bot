@@ -1,11 +1,11 @@
-package model
+package types
 
-type DB struct {
+type User struct {
 	TelegramID int64   `gorethink:"telegramID"`
 	Location   string  `gorethink:"location"`
 	Lang       string  `gorethink:"lang"`
 	Lat        float64 `gorethink:"lat"`
-	Lng        float64 `gorethink:"lng"`
+	Lon        float64 `gorethink:"lon"`
 	Units      string  `gorethink:"units"`
 }
 

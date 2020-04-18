@@ -13,6 +13,7 @@ require (
 	github.com/mlbright/darksky v0.0.0-20190903032611-d133a40b35ab
 	github.com/mlbright/forecast v0.0.0-20190903032611-d133a40b35ab
 	github.com/opentracing/opentracing-go v1.1.0 // indirect
+	github.com/pkg/errors v0.8.1
 	github.com/rs/zerolog v1.18.0
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/sirupsen/logrus v1.5.0 // indirect

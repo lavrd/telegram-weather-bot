@@ -1,21 +1,22 @@
-package msg
+package message
 
 import (
-	"github.com/go-telegram-bot-api/telegram-bot-api"
-	l "telegram-weather-bot/pkg/language"
+	twbl "telegram-weather-bot/pkg/language"
 	"telegram-weather-bot/pkg/model"
+
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"golang.org/x/text/language"
 )
 
 func mainKeyboard(lang string) tgbotapi.ReplyKeyboardMarkup {
 	return tgbotapi.NewReplyKeyboard(
 		[]tgbotapi.KeyboardButton{
-			tgbotapi.NewKeyboardButton(l.Language[lang]["now"]),
-			tgbotapi.NewKeyboardButton(l.Language[lang]["forToday"]),
+			tgbotapi.NewKeyboardButton(twbl.Languages[lang]["now"]),
+			tgbotapi.NewKeyboardButton(twbl.Languages[lang]["forToday"]),
 		},
 		[]tgbotapi.KeyboardButton{
-			tgbotapi.NewKeyboardButton(l.Language[lang]["forTomorrow"]),
-			tgbotapi.NewKeyboardButton(l.Language[lang]["forWeek"]),
+			tgbotapi.NewKeyboardButton(twbl.Languages[lang]["forTomorrow"]),
+			tgbotapi.NewKeyboardButton(twbl.Languages[lang]["forWeek"]),
 		},
 		[]tgbotapi.KeyboardButton{
 			tgbotapi.NewKeyboardButton(model.Gear),
@@ -29,8 +30,8 @@ func unitsKeyboard(lang string) tgbotapi.ReplyKeyboardMarkup {
 	return tgbotapi.NewReplyKeyboard(
 		[]tgbotapi.KeyboardButton{
 			tgbotapi.NewKeyboardButton(model.Back),
-			tgbotapi.NewKeyboardButton(l.Language[lang]["°C, mps"]),
-			tgbotapi.NewKeyboardButton(l.Language[lang]["°F, mph"]),
+			tgbotapi.NewKeyboardButton(twbl.Languages[lang]["°C, mps"]),
+			tgbotapi.NewKeyboardButton(twbl.Languages[lang]["°F, mph"]),
 		},
 	)
 }

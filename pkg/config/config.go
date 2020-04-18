@@ -25,7 +25,6 @@ type OWM struct {
 
 type Telegram struct {
 	Token string
-	Error *TelegramError
 }
 
 type TelegramError struct {
@@ -44,9 +43,6 @@ func Parse() *Config {
 		},
 		Telegram: &Telegram{
 			Token: os.Getenv("TELEGRAM_TOKEN"),
-			Error: &TelegramError{
-				AdminID: os.Getenv("TELEGRAM_ERROR_ADMIN"),
-			},
 		},
 		DSN:      os.Getenv("DSN"),
 		LogLevel: os.Getenv("LOG_LEVEL"),

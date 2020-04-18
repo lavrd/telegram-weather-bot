@@ -4,6 +4,7 @@ import (
 	"telegram-weather-bot/pkg/config"
 	"telegram-weather-bot/pkg/storage"
 	"telegram-weather-bot/pkg/storage/rethinkdb"
+	"telegram-weather-bot/pkg/update"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/rs/zerolog/log"
@@ -12,6 +13,7 @@ import (
 type Bot struct {
 	storage storage.Storage
 
+	update      *update.Update
 	tgBotClient *tgbotapi.BotAPI
 	updC        tgbotapi.UpdatesChannel
 }
@@ -20,7 +22,7 @@ func (b *Bot) Run() error {
 	log.Info().Msg("run telegram weather bot")
 
 	for upd := range b.updC {
-		log.Debug().Msg(upd.Message.Text)
+		b.update.Handle(&upd)
 	}
 
 	return nil
@@ -51,6 +53,7 @@ func New(cfg *config.Config) (*Bot, error) {
 	if err != nil {
 		return nil, err
 	}
+	update := update.New(tgBotClient)
 
 	storage, err := rethinkdb.New(cfg.DSN)
 	if err != nil {
@@ -60,6 +63,7 @@ func New(cfg *config.Config) (*Bot, error) {
 	return &Bot{
 		storage: storage,
 
+		update:      update,
 		tgBotClient: tgBotClient,
 		updC:        updC,
 	}, nil
