@@ -1,28 +1,47 @@
 package bot
 
-type Bot struct{}
+import (
+	"fmt"
+	"telegram-weather-bot/pkg/config"
+
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+)
+
+type Bot struct {
+	tgBotClient *tgbotapi.BotAPI
+	updC        tgbotapi.UpdatesChannel
+}
 
 func (b *Bot) Run() error {
-	// bot, err := tgbotapi.NewBotAPI(config.Viper.Telegram.Token)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	for upd := range b.updC {
+		fmt.Println(upd.Message.Text)
+	}
 
-	// bot.Debug = true
-
-	// u := tgbotapi.NewUpdate(0)
-	// u.Timeout = 60
-
-	// updates, err := bot.GetUpdatesChan(u)
-
-	// db.Init()
-
-	// for update := range updates {
-	// 	msg.Updates(bot, update)
-	// }
-	panic("not implemented")
+	return nil
 }
 
 func (b *Bot) Stop() error {
-	panic("not implemented")
+	b.tgBotClient.StopReceivingUpdates()
+	b.updC.Clear()
+
+	return nil
+}
+
+func New(cfg *config.Config) (*Bot, error) {
+	tgBotClient, err := tgbotapi.NewBotAPI(cfg.Telegram.Token)
+	if err != nil {
+		return nil, err
+	}
+
+	updCfg := tgbotapi.NewUpdate(0)
+	updCfg.Timeout = 60
+	updC, err := tgBotClient.GetUpdatesChan(updCfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Bot{
+		tgBotClient: tgBotClient,
+		updC:        updC,
+	}, nil
 }
