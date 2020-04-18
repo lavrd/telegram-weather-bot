@@ -1,6 +1,7 @@
 package update
 
 import (
+	"fmt"
 	"telegram-weather-bot/pkg/emoji"
 	"telegram-weather-bot/pkg/language"
 	"telegram-weather-bot/pkg/message"
@@ -10,11 +11,16 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// type Type int
+type MsgType int
 
-// const (
-// 	WeatherCmd Type = iota + 1
-// )
+const (
+	UnknownMsg MsgType = iota // TODO: is not unknown -> just weather as i understood
+	StartMsg
+	BackMsg
+	UpdateLangMsg
+	langKeyboardMsg
+	HelpMsg
+)
 
 // TODO: can we throw error in this functions?
 
@@ -89,25 +95,25 @@ import (
 // 	}
 // }
 
-// func (m *Message) MainMenu(telegramID int64) {
-// 	logger := prepareLogger(telegramID, "main menu")
+func (u *Update) MainMenuMsg(telegramID int64) {
+	logger := prepareLogger(telegramID, "main menu")
 
-// 	user, err := m.storage.GetUser(telegramID)
-// 	if err == storage.ErrUserNotFound {
-// 		// LangKeyboardMsg(bot, telegramID)
-// 		return
-// 	}
-// 	if err != nil {
-// 		logger.Err(err).Msg("failed to get user")
-// 		return
-// 	}
+	user, err := u.storage.GetUser(telegramID)
+	if err == storage.ErrUserNotFound {
+		u.langKeyboardMsg(telegramID)
+		return
+	}
+	if err != nil {
+		logger.Err(err).Msg("failed to get user")
+		return
+	}
 
-// 	msg := tgbotapi.NewMessage(telegramID, language.Languages[user.Lang]["mainMenu"]) // TODO: const
-// 	msg.ReplyMarkup = mainKeyboard(user.Lang)
-// 	if _, err := m.tgBotClient.Send(msg); err != nil {
-// 		logger.Err(err).Msg("failed to send message")
-// 	}
-// }
+	msg := tgbotapi.NewMessage(telegramID, language.Dictionary[user.Lang][message.MainMenu])
+	msg.ReplyMarkup = mainKeyboard(user.Lang)
+	if _, err := u.tgBotClient.Send(msg); err != nil {
+		logger.Err(err).Msg("failed to send message")
+	}
+}
 
 // func (m *Message) Info(telegramID int64) {
 // 	logger := prepareLogger(telegramID, "info")
@@ -143,28 +149,27 @@ import (
 // 	}
 // }
 
-// func UpdateLangMsg(bot *tgbotapi.BotAPI, telegramID int64, message string) {
-// 	isAuth, user := db.IsAuth(telegramID)
-// 	var msg tgbotapi.MessageConfig
+func (u *Update) UpdateLangMsg(telegramID int64, lang string) {
+	logger := prepareLogger(telegramID, "update lang")
 
-// 	if isAuth {
-// 		lang := db.UpdateUserLang(user, model.CountriesFETA[message], telegramID)
+	if err := u.storage.UpdateUserLang(telegramID, emoji.CountriesFETA[lang]); err != nil {
+		logger.Err(err).Msg("failed to create user")
+		return
+	}
 
-// 		msg = tgbotapi.NewMessage(telegramID,
-// 			language.Language[lang]["changeLanguageTo"]+" "+model.CountriesFATE[model.CountriesFETA[message]])
-// 		msg.ReplyMarkup = mainKeyboard(model.CountriesFETA[message])
-// 	} else {
-// 		db.SetUser(telegramID, nil, model.CountriesFETA[message])
-
-// 		msg = tgbotapi.NewMessage(telegramID,
-// 			language.Language[model.CountriesFETA[message]]["changeLanguageTo"]+" "+
-// 				model.CountriesFATE[model.CountriesFETA[message]])
-// 		msg.ReplyMarkup = mainKeyboard(model.CountriesFETA[message])
-// 	}
-
-// 	_, err := bot.Send(msg)
-// 	errors.Check(err)
-// }
+	msg := tgbotapi.NewMessage(
+		telegramID,
+		fmt.Sprintf(
+			"%s %s",
+			language.Dictionary[emoji.CountriesFETA[lang]][message.ChangeLanguageTo],
+			emoji.CountriesFATE[emoji.CountriesFETA[lang]],
+		),
+	)
+	msg.ReplyMarkup = mainKeyboard(emoji.CountriesFETA[lang])
+	if _, err := u.tgBotClient.Send(msg); err != nil {
+		logger.Err(err).Msg("failed to send message")
+	}
+}
 
 func (u *Update) langKeyboardMsg(telegramID int64) {
 	msg := tgbotapi.NewMessage(telegramID, emoji.GlobeWithMeridian)
@@ -203,7 +208,7 @@ func (u *Update) helpMsg(telegramID int64) {
 		return
 	}
 
-	msg := tgbotapi.NewMessage(telegramID, language.Languages[user.Lang][message.Help])
+	msg := tgbotapi.NewMessage(telegramID, language.Dictionary[user.Lang][message.Help])
 	msg.ReplyMarkup = mainKeyboard(user.Lang)
 	msg.ParseMode = "markdown"
 	if _, err := u.tgBotClient.Send(msg); err != nil {

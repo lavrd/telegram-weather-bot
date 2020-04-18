@@ -1,7 +1,7 @@
 package update
 
 import (
-	"telegram-weather-bot/pkg/message"
+	"strings"
 	"telegram-weather-bot/pkg/storage"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
@@ -18,13 +18,24 @@ func (u *Update) Handle(upd *tgbotapi.Update) {
 		return
 	}
 
-	// msgText := strings.ToLower(upd.Message.Text)
+	msgText := strings.ToLower(upd.Message.Text)
 	cmdText := upd.Message.Command()
 	telegramID := upd.Message.Chat.ID
 
-	if cmdText == message.Start {
+	msgType := parseIncomingMsg(msgText, cmdText)
+
+	switch msgType {
+	case StartMsg:
 		u.StartMsg(telegramID)
-		return
+	case BackMsg:
+		u.MainMenuMsg(telegramID)
+	case UpdateLangMsg:
+		u.UpdateLangMsg(telegramID, msgText)
+	case langKeyboardMsg:
+		u.langKeyboardMsg(telegramID)
+	case HelpMsg:
+		u.helpMsg(telegramID)
+	default:
 	}
 
 	// if update.Message.Text == "now" || update.Message.Text == "for today" ||
@@ -35,20 +46,6 @@ func (u *Update) Handle(upd *tgbotapi.Update) {
 	// 	update.Message.Command() == "tomorrow" || update.Message.Command() == "week" {
 
 	// 	WeatherMsgFromCmd(bot, update.Message.Chat.ID, update.Message.Text)
-
-	// 	return
-	// }
-
-	// if update.Message.Text == model.CountriesFATE[language.English.String()] ||
-	// 	update.Message.Text == model.CountriesFATE[language.Russian.String()] {
-
-	// 	UpdateLangMsg(bot, update.Message.Chat.ID, update.Message.Text)
-
-	// 	return
-	// }
-
-	// if update.Message.Text == model.Back {
-	// 	MainMenuMsg(bot, update.Message.Chat.ID)
 
 	// 	return
 	// }
@@ -75,18 +72,6 @@ func (u *Update) Handle(upd *tgbotapi.Update) {
 
 	// if update.Message.Text == model.TriangularRuler || update.Message.Command() == "units" {
 	// 	UnitsMsg(bot, update.Message.Chat.ID)
-
-	// 	return
-	// }
-
-	// if update.Message.Text == model.GlobeWithMeridian || update.Message.Command() == "lang" {
-	// 	LangKeyboardMsg(bot, update.Message.Chat.ID)
-
-	// 	return
-	// }
-
-	// if update.Message.Command() == "help" || update.Message.Text == model.Help {
-	// 	Help(bot, update.Message.Chat.ID)
 
 	// 	return
 	// }

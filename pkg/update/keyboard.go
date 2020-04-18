@@ -12,12 +12,12 @@ import (
 func mainKeyboard(lang string) tgbotapi.ReplyKeyboardMarkup {
 	return tgbotapi.NewReplyKeyboard(
 		[]tgbotapi.KeyboardButton{
-			tgbotapi.NewKeyboardButton(twbl.Languages[lang][message.Now]),
-			tgbotapi.NewKeyboardButton(twbl.Languages[lang][message.ForToday]),
+			tgbotapi.NewKeyboardButton(twbl.Dictionary[lang][message.Now]),
+			tgbotapi.NewKeyboardButton(twbl.Dictionary[lang][message.ForToday]),
 		},
 		[]tgbotapi.KeyboardButton{
-			tgbotapi.NewKeyboardButton(twbl.Languages[lang][message.ForTomorrow]),
-			tgbotapi.NewKeyboardButton(twbl.Languages[lang][message.ForWeek]),
+			tgbotapi.NewKeyboardButton(twbl.Dictionary[lang][message.ForTomorrow]),
+			tgbotapi.NewKeyboardButton(twbl.Dictionary[lang][message.ForWeek]),
 		},
 		[]tgbotapi.KeyboardButton{
 			tgbotapi.NewKeyboardButton(emoji.Gear),

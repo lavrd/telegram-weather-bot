@@ -18,8 +18,9 @@ type User struct {
 }
 
 type Storage interface {
-	// CreateUser(telegramID int64, lang string) error
 	GetUser(telegramID int64) (*User, error)
+	UpdateUserLang(telegramID int64, lang string) error
+
 	// UpdateUserUnits(telegramID int64, units string) error
 	// UpdateUserLang(telegramID int64, lang string) error
 

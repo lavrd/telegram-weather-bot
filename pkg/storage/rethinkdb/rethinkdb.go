@@ -12,7 +12,9 @@ const (
 )
 
 const (
-	FieldTelegramId = "telegramId"
+	fieldTelegramId = "telegramId"
+	fieldLang       = "lang"
+	fieldUnits      = "units"
 )
 
 type RethinkDB struct {
@@ -20,8 +22,18 @@ type RethinkDB struct {
 	userTable *gorethink.Term
 }
 
+func (r *RethinkDB) UpdateUserLang(telegramID int64, lang string) error {
+	data := map[string]interface{}{
+		fieldTelegramId: telegramID,
+		fieldLang:       lang,
+	}
+
+	err := r.userTable.Insert(data).Exec(r.session)
+	return err
+}
+
 func (r *RethinkDB) GetUser(telegramID int64) (*storage.User, error) {
-	cur, err := r.userTable.Filter(gorethink.Row.Field(FieldTelegramId).Eq(telegramID)).Run(r.session)
+	cur, err := r.userTable.Filter(gorethink.Row.Field(fieldTelegramId).Eq(telegramID)).Run(r.session)
 	if err != nil {
 		return nil, err
 	}
