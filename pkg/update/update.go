@@ -1,14 +1,14 @@
 package update
 
 import (
-	"strings"
-	"telegram-weather-bot/pkg/updates/message"
+	"telegram-weather-bot/pkg/message"
+	"telegram-weather-bot/pkg/storage"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
 type Update struct {
-	msg *message.Message
+	storage storage.Storage
 
 	tgBotClient *tgbotapi.BotAPI
 }
@@ -18,10 +18,12 @@ func (u *Update) Handle(upd *tgbotapi.Update) {
 		return
 	}
 
-	msgText := strings.ToLower(upd.Message.Text)
+	// msgText := strings.ToLower(upd.Message.Text)
+	cmdText := upd.Message.Command()
+	telegramID := upd.Message.Chat.ID
 
-	if update.Message.Command() == "start" {
-		StartMsg(u.tgBotClient, update.Message.Chat.ID)
+	if cmdText == message.Start {
+		u.StartMsg(telegramID)
 		return
 	}
 
@@ -98,8 +100,10 @@ func (u *Update) Handle(upd *tgbotapi.Update) {
 	// WeatherMsgFromCity(bot, update.Message.Chat.ID, update.Message.Text)
 }
 
-func New(tgBotClient *tgbotapi.BotAPI) *Update {
+func New(tgBotClient *tgbotapi.BotAPI, storage storage.Storage) *Update {
 	return &Update{
+		storage: storage,
+
 		tgBotClient: tgBotClient,
 	}
 }

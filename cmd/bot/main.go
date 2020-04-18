@@ -17,7 +17,9 @@ func main() {
 	log.Logger = zerolog.
 		New(zerolog.NewConsoleWriter()).
 		Level(zerolog.InfoLevel).
-		With().Timestamp().
+		With().
+		Timestamp().
+		Caller().
 		Logger()
 
 	cfg := config.Parse()

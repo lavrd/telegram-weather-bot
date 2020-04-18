@@ -1,13 +1,4 @@
-package types
-
-type User struct {
-	TelegramID int64   `gorethink:"telegramID"`
-	Location   string  `gorethink:"location"`
-	Lang       string  `gorethink:"lang"`
-	Lat        float64 `gorethink:"lat"`
-	Lon        float64 `gorethink:"lon"`
-	Units      string  `gorethink:"units"`
-}
+package emoji
 
 var (
 	// emoji -> lang

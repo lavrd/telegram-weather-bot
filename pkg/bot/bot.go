@@ -42,6 +42,11 @@ func (b *Bot) Stop() error {
 }
 
 func New(cfg *config.Config) (*Bot, error) {
+	storage, err := rethinkdb.New(cfg.DSN)
+	if err != nil {
+		return nil, err
+	}
+
 	tgBotClient, err := tgbotapi.NewBotAPI(cfg.TelegramToken)
 	if err != nil {
 		return nil, err
@@ -53,12 +58,7 @@ func New(cfg *config.Config) (*Bot, error) {
 	if err != nil {
 		return nil, err
 	}
-	update := update.New(tgBotClient)
-
-	storage, err := rethinkdb.New(cfg.DSN)
-	if err != nil {
-		return nil, err
-	}
+	update := update.New(tgBotClient, storage)
 
 	return &Bot{
 		storage: storage,

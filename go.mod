@@ -5,7 +5,7 @@ go 1.12
 require (
 	github.com/bitly/go-hostpool v0.1.0 // indirect
 	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
-	github.com/briandowns/openweathermap v0.13.0
+	github.com/briandowns/openweathermap v0.13.0 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible
 	github.com/golang/protobuf v1.4.0 // indirect
@@ -26,4 +26,5 @@ require (
 	golang.org/x/time v0.0.0-20200416051211-89c76fbcd5d1 // indirect
 	googlemaps.github.io/maps v0.0.0-20200130222743-aef6b08443c7
 	gopkg.in/gorethink/gorethink.v4 v4.1.0
+	gopkg.in/rethinkdb/rethinkdb-go.v6 v6.2.1
 )

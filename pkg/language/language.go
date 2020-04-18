@@ -1,6 +1,9 @@
 package language
 
-import "telegram-weather-bot/pkg/types"
+import (
+	"telegram-weather-bot/pkg/emoji"
+	"telegram-weather-bot/pkg/message"
+)
 
 const (
 	EN = "en"
@@ -15,10 +18,10 @@ var Languages = map[string]map[string]string{
 		"IFL": "feels like",
 		"ZERO_RESULTS_LOCATION": "It is impossible to give a " +
 			"forecast for the specified coordinates",
-		"now":               "Now",
-		"forToday":          "For today",
-		"forTomorrow":       "For tomorrow",
-		"forWeek":           "For week",
+		message.Now:         "Now",
+		message.ForToday:    "For today",
+		message.ForTomorrow: "For tomorrow",
+		message.ForWeek:     "For week",
 		"changeLanguageTo":  "Change language to",
 		"changeUnits":       "Change units to",
 		"ZERO_RESULTS_CITY": "Unable to find the weather for this city",
@@ -44,10 +47,10 @@ var Languages = map[string]map[string]string{
 			"*For tomorrow* - weather for tomorrow\n" +
 			"*For week* - weather for the week\n\n" +
 			"You can also send a message to bot or use a bot *commands*.\n\n" +
-			"To select the language or units, click " + types.Gear + ".\n" +
-			"You can select the language by command /lang or by " + types.GlobeWithMeridian + ".\n" +
-			"Also you can select the units by command /units or by " + types.TriangularRuler + ".\n" +
-			"View the current location, language and units is possible by command /info or " + types.Info + ".",
+			"To select the language or units, click " + emoji.Gear + ".\n" +
+			"You can select the language by command /lang or by " + emoji.GlobeWithMeridian + ".\n" +
+			"Also you can select the units by command /units or by " + emoji.TriangularRuler + ".\n" +
+			"View the current location, language and units is possible by command /info or " + emoji.Info + ".",
 	},
 
 	"ru": {
@@ -55,13 +58,13 @@ var Languages = map[string]map[string]string{
 		"mph":                   "миль/ч",
 		"IFL":                   "Чувствуется как",
 		"ZERO_RESULTS_LOCATION": "Невозможно выдать погоду по данным координатам",
-		"now":                   "Сейчас",
-		"forToday":              "На сегодня",
-		"forTomorrow":           "На завтра",
-		"forWeek":               "На неделю",
+		message.Now:             "Сейчас",
+		message.ForToday:        "На сегодня",
+		message.ForTomorrow:     "На завтра",
+		message.ForWeek:         "На неделю",
 		"changeLanguageTo":      "Язык изменен на",
 		"changeUnits":           "Единицы измерения изменены на",
-		"ZERO_RESULTS_CITY":     "Невозможо выдать погоду в данном городе",
+		"ZERO_RESULTS_CITY":     "Невозможно выдать погоду в данном городе",
 		"changeCityTo":          "Город изменен на",
 		"emptycity":             "Введите город, чтобы получить актуальную погоду",
 		"Monday":                "Пн",
@@ -84,9 +87,9 @@ var Languages = map[string]map[string]string{
 			"*На завтра* - погода на завтра\n" +
 			"*На неделю* - погода на неделю\n\n" +
 			"Также вы можете отправить боту сообщение или использовать *команды*.\n\n" +
-			"Для выбора языка или единиц измерения, нажмите " + types.Gear + ".\n" +
-			"Вы можете выбрать язык введя команду /lang или " + types.GlobeWithMeridian + ".\n" +
-			"Также вы можете выбрать единицы измерения введя команду /units или " + types.TriangularRuler + ".\n" +
-			"Посмотреть текущие настройки локации, языка и единиц измерения можно введя команду /info или " + types.Info + ".",
+			"Для выбора языка или единиц измерения, нажмите " + emoji.Gear + ".\n" +
+			"Вы можете выбрать язык введя команду /lang или " + emoji.GlobeWithMeridian + ".\n" +
+			"Также вы можете выбрать единицы измерения введя команду /units или " + emoji.TriangularRuler + ".\n" +
+			"Посмотреть текущие настройки локации, языка и единиц измерения можно введя команду /info или " + emoji.Info + ".",
 	},
 }

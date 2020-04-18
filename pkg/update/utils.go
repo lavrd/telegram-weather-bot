@@ -1,4 +1,4 @@
-package message
+package update
 
 import (
 	"github.com/rs/zerolog"
