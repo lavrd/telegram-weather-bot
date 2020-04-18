@@ -7,6 +7,7 @@ type Config struct {
 	OWM      *OWM
 	Telegram *Telegram
 	DSN      string
+	LogLevel string
 }
 
 type Google struct {
@@ -47,6 +48,7 @@ func Parse() *Config {
 				AdminID: os.Getenv("TELEGRAM_ERROR_ADMIN"),
 			},
 		},
-		DSN: os.Getenv("DSN"),
+		DSN:      os.Getenv("DSN"),
+		LogLevel: os.Getenv("LOG_LEVEL"),
 	}
 }
