@@ -18,7 +18,7 @@ var (
 			"changeLanguageTo":  "Change language to",
 			"changeUnits":       "Change units to",
 			"ZERO_RESULTS_CITY": "Unable to find the weather for this city",
-			"changeCityTo":      "Сhange city to",
+			"changeCityTo":      "Change city to",
 			"emptycity":         "Enter your city to get the actual weather",
 			"Monday":            "Mon",
 			"Tuesday":           "Tue",
