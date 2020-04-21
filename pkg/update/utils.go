@@ -2,6 +2,7 @@ package update
 
 import (
 	"strings"
+
 	"twb/pkg/emoji"
 	"twb/pkg/message"
 
@@ -41,7 +42,7 @@ func parseIncomingMsg(msg, cmd string) MsgType {
 		return BackMsg
 	case emoji.CountriesFATE[language.English.String()], emoji.CountriesFATE[language.Russian.String()]:
 		return UpdateLangMsg
-	case emoji.GlobeWithMeridian, message.Lang:
+	case emoji.Globe, message.Lang:
 		return langKeyboardMsg
 	case emoji.Help, message.Help:
 		return HelpMsg

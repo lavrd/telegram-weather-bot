@@ -1,13 +1,11 @@
 package main
 
 import (
-	"os"
-	"os/signal"
 	"strings"
-	"syscall"
 
-	"twb/pkg/bot"
 	"twb/pkg/config"
+	"twb/pkg/forecast"
+	"twb/pkg/forecast/openweathermap"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -35,22 +33,28 @@ func main() {
 		log.Logger = log.Logger.Level(logLevel)
 	}
 
-	b, err := bot.New(cfg)
-	if err != nil {
-		log.Fatal().Err(err).Msg("failed to create initialize bot")
+	var f forecast.Forecast
+	f = openweathermap.New(cfg.OpenWeatherMapToken)
+	if _, err := f.GetNow(); err != nil {
+		panic(err)
 	}
 
-	go func() {
-		if err := b.Run(); err != nil {
-			log.Fatal().Err(err).Msg("failed to run bot")
-		}
-	}()
-
-	interrupt := make(chan os.Signal, 1)
-	signal.Notify(interrupt, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
-	<-interrupt
-
-	if err := b.Stop(); err != nil {
-		log.Fatal().Err(err).Msg("failed to stop bot")
-	}
+	// b, err := bot.New(cfg)
+	// if err != nil {
+	// 	log.Fatal().Err(err).Msg("failed to create initialize bot")
+	// }
+	//
+	// go func() {
+	// 	if err := b.Run(); err != nil {
+	// 		log.Fatal().Err(err).Msg("failed to run bot")
+	// 	}
+	// }()
+	//
+	// interrupt := make(chan os.Signal, 1)
+	// signal.Notify(interrupt, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
+	// <-interrupt
+	//
+	// if err := b.Stop(); err != nil {
+	// 	log.Fatal().Err(err).Msg("failed to stop bot")
+	// }
 }
