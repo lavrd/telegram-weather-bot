@@ -3,30 +3,30 @@ package emoji
 var (
 	// emoji -> lang
 	CountriesFETA = map[string]string{
-		"\xF0\x9F\x87\xB7\xF0\x9F\x87\xBA": "ru",
-		"\xF0\x9F\x87\xAC\xF0\x9F\x87\xA7": "en",
+		"🇷🇺": "ru",
+		"🇬🇧": "en",
 	}
 
 	// lang -> emoji
 	CountriesFATE = map[string]string{
-		"ru": "\xF0\x9F\x87\xB7\xF0\x9F\x87\xBA",
-		"en": "\xF0\x9F\x87\xAC\xF0\x9F\x87\xA7",
+		"ru": "🇷🇺",
+		"en": "🇬🇧",
 	}
 
-	Help              = "\xF0\x9F\x86\x98"
-	GlobeWithMeridian = "\xF0\x9F\x8C\x90"
-	Info              = "\xE2\x84\xB9"
-	Sunrise           = "\xF0\x9F\x8C\x85"
-	Sunset            = "\xF0\x9F\x8C\x84"
-	Gear              = "\xE2\x9A\x99"
-	TriangularRuler   = "\xF0\x9F\x93\x90"
-	Back              = "\xE2\x97\x80"
+	Help            = "🆘"
+	Globe           = "🌏"
+	Info            = "ℹ️"
+	Sunrise         = "🌄"
+	Sunset          = "🌆"
+	Gear            = "⚙️"
+	TriangularRuler = "📐"
+	Back            = "↩️"
 
 	Moons = map[string]string{
-		"new moon":           "\xF0\x9F\x8C\x91",
-		"first quarter moon": "\xF0\x9F\x8C\x93",
-		"full moon":          "\xF0\x9F\x8C\x95",
-		"last quarter moon":  "\xF0\x9F\x8C\x97",
+		"new moon":           "🌑",
+		"first quarter moon": "🌓",
+		"full moon":          "🌕",
+		"last quarter moon":  "🌗",
 	}
 
 	Icons = map[string]string{
