@@ -35,20 +35,10 @@ func (u *Update) Handle(upd *tgbotapi.Update) {
 		u.langKeyboardMsg(telegramID)
 	case HelpMsg:
 		u.helpMsg(telegramID)
+	case WeatherFromCmd:
+		u.weatherMsgFromCmd(telegramID, msgText)
 	default:
 	}
-
-	// if update.Message.Text == "now" || update.Message.Text == "for today" ||
-	// 	update.Message.Text == "for tomorrow" || update.Message.Text == "for week" ||
-	// 	update.Message.Text == "сейчас" || update.Message.Text == "на сегодня" ||
-	// 	update.Message.Text == "на завтра" || update.Message.Text == "на неделю" ||
-	// 	update.Message.Command() == "now" || update.Message.Command() == "today" ||
-	// 	update.Message.Command() == "tomorrow" || update.Message.Command() == "week" {
-
-	// 	WeatherMsgFromCmd(bot, update.Message.Chat.ID, update.Message.Text)
-
-	// 	return
-	// }
 
 	// if update.Message.Text == model.Info || update.Message.Command() == "info" {
 	// 	InfoMsg(bot, update.Message.Chat.ID)

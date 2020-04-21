@@ -57,10 +57,10 @@ func langKeyboard() tgbotapi.ReplyKeyboardMarkup {
 	)
 }
 
-// func helpKeyboard() tgbotapi.ReplyKeyboardMarkup {
-// 	return tgbotapi.NewReplyKeyboard(
-// 		[]tgbotapi.KeyboardButton{
-// 			tgbotapi.NewKeyboardButton(model.Help),
-// 		},
-// 	)
-// }
+func helpKeyboard() tgbotapi.ReplyKeyboardMarkup {
+	return tgbotapi.NewReplyKeyboard(
+		[]tgbotapi.KeyboardButton{
+			tgbotapi.NewKeyboardButton(emoji.Help),
+		},
+	)
+}

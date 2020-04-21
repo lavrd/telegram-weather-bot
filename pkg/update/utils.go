@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"twb/pkg/emoji"
+	twbl "twb/pkg/language"
 	"twb/pkg/message"
 
 	"github.com/rs/zerolog"
@@ -36,16 +37,28 @@ func parseIncomingMsg(msg, cmd string) MsgType {
 	}
 
 	switch text {
+	case
+		strings.ToLower(twbl.Dictionary[twbl.EN][message.Now]), strings.ToLower(twbl.Dictionary[twbl.RU][message.Now]),
+		strings.ToLower(twbl.Dictionary[twbl.EN][message.ForToday]), strings.ToLower(twbl.Dictionary[twbl.RU][message.ForToday]),
+		strings.ToLower(twbl.Dictionary[twbl.EN][message.ForTomorrow]), strings.ToLower(twbl.Dictionary[twbl.RU][message.ForTomorrow]),
+		strings.ToLower(twbl.Dictionary[twbl.EN][message.ForWeek]), strings.ToLower(twbl.Dictionary[twbl.RU][message.ForWeek]):
+		return WeatherFromCmd
+
 	case message.Start:
 		return StartMsg
+
 	case emoji.Back:
 		return BackMsg
+
 	case emoji.CountriesFATE[language.English.String()], emoji.CountriesFATE[language.Russian.String()]:
 		return UpdateLangMsg
+
 	case emoji.Globe, message.Lang:
 		return langKeyboardMsg
+
 	case emoji.Help, message.Help:
 		return HelpMsg
+
 	default:
 		return UnknownMsg
 	}

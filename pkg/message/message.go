@@ -10,4 +10,5 @@ const (
 	MainMenu         = "mainMenu"
 	ChangeLanguageTo = "changeLanguageTo"
 	Lang             = "lang"
+	EmptyCity        = "emptyCity"
 )

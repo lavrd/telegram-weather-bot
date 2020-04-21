@@ -26,7 +26,7 @@ var Dictionary = map[string]map[string]string{
 		"changeUnits":            "Change units to",
 		"ZERO_RESULTS_CITY":      "Unable to find the weather for this city",
 		"changeCityTo":           "Change city to",
-		"emptycity":              "Enter your city to get the actual weather",
+		message.EmptyCity:        "Enter your city to get the actual weather",
 		"Monday":                 "Mon",
 		"Tuesday":                "Tue",
 		"Wednesday":              "Wed",
@@ -48,7 +48,7 @@ var Dictionary = map[string]map[string]string{
 			"*For week* - weather for the week\n\n" +
 			"You can also send a message to bot or use a bot *commands*.\n\n" +
 			"To select the language or units, click " + emoji.Gear + ".\n" +
-			"You can select the language by command /lang or by " + emoji.GlobeWithMeridian + ".\n" +
+			"You can select the language by command /lang or by " + emoji.Globe + ".\n" +
 			"Also you can select the units by command /units or by " + emoji.TriangularRuler + ".\n" +
 			"View the current location, language and units is possible by command /info or " + emoji.Info + ".",
 	},
@@ -66,7 +66,7 @@ var Dictionary = map[string]map[string]string{
 		"changeUnits":            "Единицы измерения изменены на",
 		"ZERO_RESULTS_CITY":      "Невозможно выдать погоду в данном городе",
 		"changeCityTo":           "Город изменен на",
-		"emptycity":              "Введите город, чтобы получить актуальную погоду",
+		message.EmptyCity:        "Введите город, чтобы получить актуальную погоду",
 		"Monday":                 "Пн",
 		"Tuesday":                "Вт",
 		"Wednesday":              "Ср",
@@ -88,7 +88,7 @@ var Dictionary = map[string]map[string]string{
 			"*На неделю* - погода на неделю\n\n" +
 			"Также вы можете отправить боту сообщение или использовать *команды*.\n\n" +
 			"Для выбора языка или единиц измерения, нажмите " + emoji.Gear + ".\n" +
-			"Вы можете выбрать язык введя команду /lang или " + emoji.GlobeWithMeridian + ".\n" +
+			"Вы можете выбрать язык введя команду /lang или " + emoji.Globe + ".\n" +
 			"Также вы можете выбрать единицы измерения введя команду /units или " + emoji.TriangularRuler + ".\n" +
 			"Посмотреть текущие настройки локации, языка и единиц измерения можно введя команду /info или " + emoji.Info + ".",
 	},
