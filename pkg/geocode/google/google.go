@@ -3,7 +3,7 @@ package google
 import (
 	"context"
 
-	"telegram-weather-bot/pkg/geocode"
+	"twb/pkg/geocode"
 
 	"googlemaps.github.io/maps"
 )

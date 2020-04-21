@@ -6,8 +6,8 @@ import (
 	"strings"
 	"syscall"
 
-	"telegram-weather-bot/pkg/bot"
-	"telegram-weather-bot/pkg/config"
+	"twb/pkg/bot"
+	"twb/pkg/config"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -22,7 +22,10 @@ func main() {
 		Caller().
 		Logger()
 
-	cfg := config.Parse()
+	cfg, err := config.Parse()
+	if err != nil {
+		log.Fatal().Err(err).Msg("failed to parse config")
+	}
 
 	if cfg.LogLevel != "" {
 		logLevel, err := zerolog.ParseLevel(strings.ToLower(cfg.LogLevel))
@@ -32,13 +35,13 @@ func main() {
 		log.Logger = log.Logger.Level(logLevel)
 	}
 
-	bot, err := bot.New(cfg)
+	b, err := bot.New(cfg)
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to create initialize bot")
 	}
 
 	go func() {
-		if err := bot.Run(); err != nil {
+		if err := b.Run(); err != nil {
 			log.Fatal().Err(err).Msg("failed to run bot")
 		}
 	}()
@@ -47,7 +50,7 @@ func main() {
 	signal.Notify(interrupt, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 	<-interrupt
 
-	if err := bot.Stop(); err != nil {
+	if err := b.Stop(); err != nil {
 		log.Fatal().Err(err).Msg("failed to stop bot")
 	}
 }

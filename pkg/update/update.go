@@ -2,7 +2,7 @@ package update
 
 import (
 	"strings"
-	"telegram-weather-bot/pkg/storage"
+	"twb/pkg/storage"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )

@@ -1,7 +1,7 @@
 package rethinkdb
 
 import (
-	"telegram-weather-bot/pkg/storage"
+	"twb/pkg/storage"
 
 	"gopkg.in/gorethink/gorethink.v4"
 )

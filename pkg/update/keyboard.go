@@ -1,9 +1,9 @@
 package update
 
 import (
-	"telegram-weather-bot/pkg/emoji"
-	twbl "telegram-weather-bot/pkg/language"
-	"telegram-weather-bot/pkg/message"
+	"twb/pkg/emoji"
+	twbl "twb/pkg/language"
+	"twb/pkg/message"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"golang.org/x/text/language"

@@ -2,8 +2,8 @@ package update
 
 import (
 	"strings"
-	"telegram-weather-bot/pkg/emoji"
-	"telegram-weather-bot/pkg/message"
+	"twb/pkg/emoji"
+	"twb/pkg/message"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

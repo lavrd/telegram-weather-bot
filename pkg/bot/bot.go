@@ -1,10 +1,12 @@
 package bot
 
 import (
-	"telegram-weather-bot/pkg/config"
-	"telegram-weather-bot/pkg/storage"
-	"telegram-weather-bot/pkg/storage/rethinkdb"
-	"telegram-weather-bot/pkg/update"
+	"github.com/pkg/errors"
+
+	"twb/pkg/config"
+	"twb/pkg/storage"
+	"twb/pkg/storage/rethinkdb"
+	"twb/pkg/update"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/rs/zerolog/log"
@@ -42,28 +44,28 @@ func (b *Bot) Stop() error {
 }
 
 func New(cfg *config.Config) (*Bot, error) {
-	storage, err := rethinkdb.New(cfg.DSN)
+	rdb, err := rethinkdb.New(cfg.DSN)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to initialize rethinkdb")
 	}
 
 	tgBotClient, err := tgbotapi.NewBotAPI(cfg.TelegramToken)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to initialize new bot api")
 	}
 
 	updCfg := tgbotapi.NewUpdate(0)
 	updCfg.Timeout = 60
 	updC, err := tgBotClient.GetUpdatesChan(updCfg)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to get telegram update channel")
 	}
-	update := update.New(tgBotClient, storage)
+	upd := update.New(tgBotClient, rdb)
 
 	return &Bot{
-		storage: storage,
+		storage: rdb,
 
-		update:      update,
+		update:      upd,
 		tgBotClient: tgBotClient,
 		updC:        updC,
 	}, nil

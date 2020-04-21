@@ -2,10 +2,10 @@ package update
 
 import (
 	"fmt"
-	"telegram-weather-bot/pkg/emoji"
-	"telegram-weather-bot/pkg/language"
-	"telegram-weather-bot/pkg/message"
-	"telegram-weather-bot/pkg/storage"
+	"twb/pkg/emoji"
+	"twb/pkg/language"
+	"twb/pkg/message"
+	"twb/pkg/storage"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/rs/zerolog/log"

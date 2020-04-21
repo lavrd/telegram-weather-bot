@@ -1,8 +1,8 @@
 package language
 
 import (
-	"telegram-weather-bot/pkg/emoji"
-	"telegram-weather-bot/pkg/message"
+	"twb/pkg/emoji"
+	"twb/pkg/message"
 )
 
 const (
