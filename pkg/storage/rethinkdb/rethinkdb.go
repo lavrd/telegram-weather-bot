@@ -17,6 +17,8 @@ const (
 	fieldUnits      = "units"
 )
 
+const ConflictOpt = "replace"
+
 type RethinkDB struct {
 	session   *gorethink.Session
 	userTable *gorethink.Term
@@ -28,7 +30,7 @@ func (r *RethinkDB) UpdateUserLang(telegramID int64, lang string) error {
 		fieldLang:       lang,
 	}
 
-	err := r.userTable.Insert(data).Exec(r.session)
+	err := r.userTable.Insert(data, gorethink.InsertOpts{Conflict: ConflictOpt}).Exec(r.session)
 	return err
 }
 

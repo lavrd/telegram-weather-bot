@@ -60,6 +60,6 @@ func parseIncomingMsg(msg, cmd string) MsgType {
 		return HelpMsg
 
 	default:
-		return UnknownMsg
+		return AnyMsg
 	}
 }

@@ -18,7 +18,7 @@ func (g *Google) Geocode(location, lang string) (*geocode.Result, error) {
 		Address:  location,
 	}
 
-	ress, err := g.client.ReverseGeocode(context.TODO(), req)
+	ress, err := g.client.Geocode(context.TODO(), req)
 	if err != nil {
 		return nil, err
 	}

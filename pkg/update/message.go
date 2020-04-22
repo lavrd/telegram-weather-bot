@@ -18,7 +18,7 @@ const markdown = "markdown"
 type MsgType int
 
 const (
-	UnknownMsg MsgType = iota // TODO: is not unknown -> just weather as i understand
+	AnyMsg MsgType = iota
 	StartMsg
 	BackMsg
 	langKeyboardMsg
@@ -221,39 +221,52 @@ func (u *Update) helpMsg(telegramID int64) {
 	}
 }
 
-// func WeatherMsgFromCity(bot *tgbotapi.BotAPI, telegramID int64, location string) {
-// 	isAuth, user := db.IsAuth(telegramID)
-// 	var msg tgbotapi.MessageConfig
+func (u *Update) WeatherMsgByCity(telegramID int64, location string) {
+	logger := prepareLogger(telegramID, "weather message by city")
 
-// 	if !isAuth {
-// 		LangKeyboardMsg(bot, telegramID)
-// 		return
-// 	}
+	user, err := u.storage.GetUser(telegramID)
+	if err == storage.ErrUserNotFound {
+		u.langKeyboardMsg(telegramID)
+		return
+	}
+	if err != nil {
+		logger.Err(err).Msg("failed to get user") // TODO: Return message about error everywhere.
+		return
+	}
 
-// 	if g, err := geocoding.Geocode(location, user.Lang); err != nil {
-// 		msg = tgbotapi.NewMessage(telegramID, err.Error())
-// 	} else {
-// 		if user.Location != g[0].FormattedAddress {
-// 			db.SetUser(telegramID, g, user.Lang)
+	geoRes, err := u.geocode.Geocode(location, user.Lang)
+	if err != nil {
+		logger.Err(err).Msg("failed to geocode")
+		return
+	}
 
-// 			msg := tgbotapi.NewMessage(telegramID,
-// 				language.Language[user.Lang]["changeCityTo"]+" "+g[0].FormattedAddress)
-// 			_, err = bot.Send(msg)
-// 			errors.Check(err)
-// 		}
+	// if g, err := geocoding.Geocode(location, user.Lang); err != nil {
+	// 	msg = tgbotapi.NewMessage(telegramID, err.Error())
+	// } else {
+	// 	if user.Location != g[0].FormattedAddress {
+	// 		db.SetUser(telegramID, g, user.Lang)
+	//
+	// 		msg := tgbotapi.NewMessage(telegramID,
+	// 			language.Language[user.Lang]["changeCityTo"]+" "+g[0].FormattedAddress)
+	// 		_, err = bot.Send(msg)
+	// 		errors.Check(err)
+	// 	}
+	//
+	// 	wthr := weather.CurrentWeather(
+	// 		g[0].Geometry.Location.Lat, g[0].Geometry.Location.Lng,
+	// 		g[0].FormattedAddress, user)
+	//
+	// 	msg = tgbotapi.NewMessage(telegramID, wthr)
+	// }
+	//
 
-// 		wthr := weather.CurrentWeather(
-// 			g[0].Geometry.Location.Lat, g[0].Geometry.Location.Lng,
-// 			g[0].FormattedAddress, user)
-
-// 		msg = tgbotapi.NewMessage(telegramID, wthr)
-// 	}
-
-// 	msg.ReplyMarkup = mainKeyboard(user.Lang)
-// 	msg.ParseMode = "markdown"
-// 	_, err := bot.Send(msg)
-// 	errors.Check(err)
-// }
+	msg := tgbotapi.NewMessage(telegramID, fmt.Sprintf("%v %v %v", geoRes.Location, geoRes.Lat, geoRes.Lon))
+	msg.ReplyMarkup = mainKeyboard(user.Lang)
+	msg.ParseMode = "markdown"
+	if _, err := u.tgBotClient.Send(msg); err != nil {
+		logger.Err(err).Msg("failed to send message")
+	}
+}
 
 // func WeatherMsgFromLocation(bot *tgbotapi.BotAPI, telegramID int64, location *tgbotapi.Location) {
 // 	isAuth, user := db.IsAuth(telegramID)
@@ -289,8 +302,8 @@ func (u *Update) helpMsg(telegramID int64) {
 // 	errors.Check(err)
 // }
 
-func (u *Update) weatherMsgFromCmd(telegramID int64, weatherType string) {
-	logger := prepareLogger(telegramID, "start")
+func (u *Update) weatherMsgByCmd(telegramID int64, weatherType string) {
+	logger := prepareLogger(telegramID, "weather message by command")
 
 	user, err := u.storage.GetUser(telegramID)
 	if err == storage.ErrUserNotFound {

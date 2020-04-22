@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"twb/pkg/forecast"
+	"twb/pkg/geocode"
 	"twb/pkg/storage"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
@@ -12,7 +13,9 @@ import (
 type Update struct {
 	tgBotClient *tgbotapi.BotAPI
 
-	storage  storage.Storage
+	storage storage.Storage
+
+	geocode  geocode.Geocode
 	forecast forecast.Forecast
 }
 
@@ -39,8 +42,9 @@ func (u *Update) Handle(upd *tgbotapi.Update) {
 	case HelpMsg:
 		u.helpMsg(telegramID)
 	case WeatherFromCmd:
-		u.weatherMsgFromCmd(telegramID, msgText)
+		u.weatherMsgByCmd(telegramID, msgText)
 	default:
+		u.WeatherMsgByCity(telegramID, msgText)
 	}
 
 	// if update.Message.Text == model.Info || update.Message.Command() == "info" {
@@ -74,15 +78,19 @@ func (u *Update) Handle(upd *tgbotapi.Update) {
 
 	// 	return
 	// }
-
-	// WeatherMsgFromCity(bot, update.Message.Chat.ID, update.Message.Text)
 }
 
-func New(tgBotClient *tgbotapi.BotAPI, storage storage.Storage, forecast forecast.Forecast) *Update {
+func New(
+	tgBotClient *tgbotapi.BotAPI,
+	storage storage.Storage,
+	forecast forecast.Forecast, geocode geocode.Geocode,
+) *Update {
 	return &Update{
 		tgBotClient: tgBotClient,
 
-		storage:  storage,
+		storage: storage,
+
+		geocode:  geocode,
 		forecast: forecast,
 	}
 }
