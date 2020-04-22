@@ -5,7 +5,6 @@ go 1.14
 require (
 	github.com/bitly/go-hostpool v0.1.0 // indirect
 	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
-	github.com/briandowns/openweathermap v0.13.0
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible
 	github.com/golang/protobuf v1.4.0 // indirect

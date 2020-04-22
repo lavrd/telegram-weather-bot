@@ -35,12 +35,6 @@ func main() {
 		log.Logger = log.Logger.Level(logLevel)
 	}
 
-	// var f forecast.Forecast
-	// f = openweathermap.New(cfg.OpenWeatherMapToken)
-	// if _, err := f.GetNow(); err != nil {
-	// 	panic(err)
-	// }
-
 	b, err := bot.New(cfg)
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to create initialize bot")

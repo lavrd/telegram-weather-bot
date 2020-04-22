@@ -2,15 +2,18 @@ package update
 
 import (
 	"strings"
+
+	"twb/pkg/forecast"
 	"twb/pkg/storage"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
 type Update struct {
-	storage storage.Storage
-
 	tgBotClient *tgbotapi.BotAPI
+
+	storage  storage.Storage
+	forecast forecast.Forecast
 }
 
 func (u *Update) Handle(upd *tgbotapi.Update) {
@@ -75,10 +78,11 @@ func (u *Update) Handle(upd *tgbotapi.Update) {
 	// WeatherMsgFromCity(bot, update.Message.Chat.ID, update.Message.Text)
 }
 
-func New(tgBotClient *tgbotapi.BotAPI, storage storage.Storage) *Update {
+func New(tgBotClient *tgbotapi.BotAPI, storage storage.Storage, forecast forecast.Forecast) *Update {
 	return &Update{
-		storage: storage,
-
 		tgBotClient: tgBotClient,
+
+		storage:  storage,
+		forecast: forecast,
 	}
 }

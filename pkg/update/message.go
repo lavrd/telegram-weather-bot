@@ -307,7 +307,7 @@ func (u *Update) weatherMsgFromCmd(telegramID int64, weatherType string) {
 		weather string
 	)
 
-	if user.Location != "" {
+	if user.Location == "" {
 		msg = tgbotapi.NewMessage(telegramID, language.Dictionary[user.Lang][message.EmptyCity])
 		msg.ReplyMarkup = helpKeyboard()
 	} else {

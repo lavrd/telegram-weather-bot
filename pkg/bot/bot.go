@@ -4,6 +4,7 @@ import (
 	"github.com/pkg/errors"
 
 	"twb/pkg/config"
+	"twb/pkg/forecast/openweathermap"
 	"twb/pkg/storage"
 	"twb/pkg/storage/rethinkdb"
 	"twb/pkg/update"
@@ -54,13 +55,15 @@ func New(cfg *config.Config) (*Bot, error) {
 		return nil, errors.Wrap(err, "failed to initialize new bot api")
 	}
 
+	own := openweathermap.New(cfg.OpenWeatherMapToken)
+
 	updCfg := tgbotapi.NewUpdate(0)
 	updCfg.Timeout = 60
 	updC, err := tgBotClient.GetUpdatesChan(updCfg)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get telegram update channel")
 	}
-	upd := update.New(tgBotClient, rdb)
+	upd := update.New(tgBotClient, rdb, own)
 
 	return &Bot{
 		storage: rdb,
