@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"twb/pkg/emoji"
+	"twb/pkg/geocode"
 	"twb/pkg/language"
 	"twb/pkg/message"
 	"twb/pkg/storage"
@@ -24,7 +25,7 @@ const (
 	langKeyboardMsg
 	HelpMsg
 	WeatherFromCmd
-	UpdateLangMsg
+	LangUpdateMsg
 )
 
 // TODO: can we throw error in this functions?
@@ -100,7 +101,7 @@ const (
 // 	}
 // }
 
-func (u *Update) MainMenuMsg(telegramID int64) {
+func (u *Update) mainMenuMsg(telegramID int64) {
 	logger := prepareLogger(telegramID, "main menu")
 
 	user, err := u.storage.GetUser(telegramID)
@@ -154,11 +155,22 @@ func (u *Update) MainMenuMsg(telegramID int64) {
 // 	}
 // }
 
-func (u *Update) UpdateLangMsg(telegramID int64, lang string) {
+func (u *Update) updateLangMsg(telegramID int64, lang string) {
 	logger := prepareLogger(telegramID, "update lang")
 
-	if err := u.storage.UpdateUserLang(telegramID, emoji.CountriesFETA[lang]); err != nil {
-		logger.Err(err).Msg("failed to create user")
+	user, err := u.storage.GetUser(telegramID)
+	if err != nil && err != storage.ErrUserNotFound {
+		logger.Err(err).Msg("failed to get user")
+		return
+	}
+
+	if user == nil {
+		user = &storage.User{TelegramID: telegramID}
+	}
+	user.Lang = emoji.CountriesFETA[lang]
+
+	if err := u.storage.Upsert(user); err != nil {
+		logger.Err(err).Msg("failed to upsert user")
 		return
 	}
 
@@ -184,7 +196,7 @@ func (u *Update) langKeyboardMsg(telegramID int64) {
 	}
 }
 
-func (u *Update) StartMsg(telegramID int64) {
+func (u *Update) startMsg(telegramID int64) {
 	logger := prepareLogger(telegramID, "start")
 
 	_, err := u.storage.GetUser(telegramID)
@@ -221,7 +233,7 @@ func (u *Update) helpMsg(telegramID int64) {
 	}
 }
 
-func (u *Update) WeatherMsgByCity(telegramID int64, location string) {
+func (u *Update) weatherMsgByCity(telegramID int64, location string) {
 	logger := prepareLogger(telegramID, "weather message by city")
 
 	user, err := u.storage.GetUser(telegramID)
@@ -230,14 +242,37 @@ func (u *Update) WeatherMsgByCity(telegramID int64, location string) {
 		return
 	}
 	if err != nil {
-		logger.Err(err).Msg("failed to get user") // TODO: Return message about error everywhere.
+		logger.Err(err).Msg("failed to get user") // TODO: Return message about error. Do it everywhere.
 		return
 	}
 
 	geoRes, err := u.geocode.Geocode(location, user.Lang)
 	if err != nil {
+		if err == geocode.ErrEmptyResult {
+			// TODO: Handle this please!
+			return
+		}
 		logger.Err(err).Msg("failed to geocode")
 		return
+	}
+
+	if user.Lat != geoRes.Lat || user.Lon != geoRes.Lon {
+		user.Location = geoRes.Location
+		user.Lat = geoRes.Lat
+		user.Lon = geoRes.Lon
+		if err := u.storage.Upsert(user); err != nil {
+			logger.Err(err).Msg("failed to upsert user")
+			return
+		}
+
+		msg := tgbotapi.NewMessage(telegramID, fmt.Sprintf(
+			"%s %s",
+			language.Dictionary[user.Lang][message.ChangeCityTo],
+			geoRes.Location,
+		))
+		if _, err := u.tgBotClient.Send(msg); err != nil {
+			logger.Err(err).Msg("failed to send message")
+		}
 	}
 
 	// if g, err := geocoding.Geocode(location, user.Lang); err != nil {
@@ -259,13 +294,6 @@ func (u *Update) WeatherMsgByCity(telegramID int64, location string) {
 	// 	msg = tgbotapi.NewMessage(telegramID, wthr)
 	// }
 	//
-
-	msg := tgbotapi.NewMessage(telegramID, fmt.Sprintf("%v %v %v", geoRes.Location, geoRes.Lat, geoRes.Lon))
-	msg.ReplyMarkup = mainKeyboard(user.Lang)
-	msg.ParseMode = "markdown"
-	if _, err := u.tgBotClient.Send(msg); err != nil {
-		logger.Err(err).Msg("failed to send message")
-	}
 }
 
 // func WeatherMsgFromLocation(bot *tgbotapi.BotAPI, telegramID int64, location *tgbotapi.Location) {
@@ -315,34 +343,41 @@ func (u *Update) weatherMsgByCmd(telegramID int64, weatherType string) {
 		return
 	}
 
-	var (
-		msg     tgbotapi.MessageConfig
-		weather string
-	)
-
 	if user.Location == "" {
-		msg = tgbotapi.NewMessage(telegramID, language.Dictionary[user.Lang][message.EmptyCity])
+		msg := tgbotapi.NewMessage(telegramID, language.Dictionary[user.Lang][message.EmptyCity])
 		msg.ReplyMarkup = helpKeyboard()
-	} else {
-		switch weatherType {
-		case strings.ToLower(language.Dictionary[language.EN][message.Now]), strings.ToLower(language.Dictionary[language.RU][message.Now]):
-			// 	wthr = weather.CurrentWeather(user.Lat, user.Lng, user.Location, user)
-
-		case strings.ToLower(language.Dictionary[language.EN][message.ForToday]), strings.ToLower(language.Dictionary[language.RU][message.ForToday]):
-			// 	wthr = weather.WeatherOfDay(user)
-
-		case strings.ToLower(language.Dictionary[language.EN][message.ForTomorrow]), strings.ToLower(language.Dictionary[language.RU][message.ForTomorrow]):
-			// 	wthr = weather.TomorrowWeather(user)
-
-		case strings.ToLower(language.Dictionary[language.EN][message.ForWeek]), strings.ToLower(language.Dictionary[language.RU][message.ForWeek]):
-			// 	wthr = weather.WeekWeather(user)
+		if _, err := u.tgBotClient.Send(msg); err != nil {
+			logger.Err(err).Msg("failed to send message")
 		}
-
-		msg = tgbotapi.NewMessage(telegramID, weather)
-		msg.ReplyMarkup = mainKeyboard(user.Lang)
-		msg.ParseMode = markdown
+		return
 	}
 
+	var weather string
+
+	switch weatherType {
+	case strings.ToLower(language.Dictionary[language.EN][message.Now]), strings.ToLower(language.Dictionary[language.RU][message.Now]):
+		currentForecast, err := u.forecast.GetCurrent()
+		if err != nil {
+			logger.Err(err).Msg("failed to get current forecast")
+			return
+		}
+
+		weather = fmt.Sprintf("%+v\n", currentForecast)
+		// 	wthr = weather.CurrentWeather(user.Lat, user.Lng, user.Location, user)
+
+	case strings.ToLower(language.Dictionary[language.EN][message.ForToday]), strings.ToLower(language.Dictionary[language.RU][message.ForToday]):
+		// 	wthr = weather.WeatherOfDay(user)
+
+	case strings.ToLower(language.Dictionary[language.EN][message.ForTomorrow]), strings.ToLower(language.Dictionary[language.RU][message.ForTomorrow]):
+		// 	wthr = weather.TomorrowWeather(user)
+
+	case strings.ToLower(language.Dictionary[language.EN][message.ForWeek]), strings.ToLower(language.Dictionary[language.RU][message.ForWeek]):
+		// 	wthr = weather.WeekWeather(user)
+	}
+
+	msg := tgbotapi.NewMessage(telegramID, weather)
+	msg.ReplyMarkup = mainKeyboard(user.Lang)
+	msg.ParseMode = markdown
 	if _, err := u.tgBotClient.Send(msg); err != nil {
 		logger.Err(err).Msg("failed to send message")
 	}

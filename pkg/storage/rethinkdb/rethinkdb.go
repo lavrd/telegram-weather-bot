@@ -15,32 +15,39 @@ const (
 	fieldTelegramId = "telegramId"
 	fieldLang       = "lang"
 	fieldUnits      = "units"
+	fieldLocation   = "location"
+	fieldLat        = "lat"
+	fieldLon        = "lon"
 )
 
-const ConflictOpt = "replace"
+const ConflictOpt = "update"
 
 type RethinkDB struct {
 	session   *gorethink.Session
 	userTable *gorethink.Term
 }
 
-func (r *RethinkDB) UpdateUserLang(telegramID int64, lang string) error {
-	data := map[string]interface{}{
-		fieldTelegramId: telegramID,
-		fieldLang:       lang,
+func (r *RethinkDB) Upsert(user *storage.User) error {
+	args := map[string]interface{}{
+		fieldTelegramId: user.TelegramID,
+		fieldLang:       user.Lang,
+		fieldUnits:      user.Units,
+		fieldLocation:   user.Location,
+		fieldLat:        user.Lat,
+		fieldLon:        user.Lon,
 	}
-
-	err := r.userTable.Insert(data, gorethink.InsertOpts{Conflict: ConflictOpt}).Exec(r.session)
+	opts := gorethink.InsertOpts{Conflict: ConflictOpt}
+	err := r.userTable.Insert(args, opts).Exec(r.session)
 	return err
 }
 
 func (r *RethinkDB) GetUser(telegramID int64) (*storage.User, error) {
-	cur, err := r.userTable.Filter(gorethink.Row.Field(fieldTelegramId).Eq(telegramID)).Run(r.session)
+	filter := gorethink.Row.Field(fieldTelegramId).Eq(telegramID)
+	cur, err := r.userTable.Filter(filter).Run(r.session)
 	if err != nil {
 		return nil, err
 	}
 	defer cur.Close()
-
 	if cur.IsNil() {
 		return nil, storage.ErrUserNotFound
 	}
@@ -73,4 +80,46 @@ func New(dsn string) (*RethinkDB, error) {
 		session:   session,
 		userTable: &userTable,
 	}, nil
+}
+
+func initialize(session *gorethink.Session) error {
+	cur, err := gorethink.DBList().Contains(databaseName).Run(session)
+	if err != nil {
+		return err
+	}
+	var ok bool
+	if err := cur.One(&ok); err != nil {
+		return err
+	}
+	defer cur.Close()
+
+	// database exists
+	if ok {
+		cur, err = gorethink.TableList().Contains(userTableName).Run(session)
+		if err != nil {
+			return err
+		}
+		var ok bool
+		if err := cur.One(&ok); err != nil {
+			return err
+		}
+		defer cur.Close()
+
+		// table exists
+		if ok {
+			return nil
+		}
+		// table doesn't exist
+
+		opts := gorethink.TableCreateOpts{PrimaryKey: fieldTelegramId}
+		err = gorethink.TableCreate(userTableName, opts).Exec(session)
+		return err
+	}
+	// database doesn't exist
+
+	if err := gorethink.DBCreate(databaseName).Exec(session); err != nil {
+		return err
+	}
+	err = gorethink.TableCreate(userTableName).Exec(session)
+	return err
 }

@@ -1,5 +1,9 @@
 package geocode
 
+import "errors"
+
+var ErrEmptyResult = errors.New("empty result")
+
 type Result struct {
 	Location string
 	Lat, Lon float64

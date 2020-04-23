@@ -32,11 +32,11 @@ func (u *Update) Handle(upd *tgbotapi.Update) {
 
 	switch msgType {
 	case StartMsg:
-		u.StartMsg(telegramID)
+		u.startMsg(telegramID)
 	case BackMsg:
-		u.MainMenuMsg(telegramID)
-	case UpdateLangMsg:
-		u.UpdateLangMsg(telegramID, msgText)
+		u.mainMenuMsg(telegramID)
+	case LangUpdateMsg:
+		u.updateLangMsg(telegramID, msgText)
 	case langKeyboardMsg:
 		u.langKeyboardMsg(telegramID)
 	case HelpMsg:
@@ -44,7 +44,7 @@ func (u *Update) Handle(upd *tgbotapi.Update) {
 	case WeatherFromCmd:
 		u.weatherMsgByCmd(telegramID, msgText)
 	default:
-		u.WeatherMsgByCity(telegramID, msgText)
+		u.weatherMsgByCity(telegramID, msgText)
 	}
 
 	// if update.Message.Text == model.Info || update.Message.Command() == "info" {

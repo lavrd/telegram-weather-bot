@@ -51,7 +51,7 @@ func parseIncomingMsg(msg, cmd string) MsgType {
 		return BackMsg
 
 	case emoji.CountriesFATE[language.English.String()], emoji.CountriesFATE[language.Russian.String()]:
-		return UpdateLangMsg
+		return LangUpdateMsg
 
 	case emoji.Globe, message.Lang:
 		return langKeyboardMsg

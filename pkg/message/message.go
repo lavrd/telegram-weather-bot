@@ -9,6 +9,7 @@ const (
 	Start            = "start"
 	MainMenu         = "mainMenu"
 	ChangeLanguageTo = "changeLanguageTo"
+	ChangeCityTo     = "changeCityTo"
 	Lang             = "lang"
 	EmptyCity        = "emptyCity"
 )

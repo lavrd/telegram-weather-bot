@@ -22,6 +22,9 @@ func (g *Google) Geocode(location, lang string) (*geocode.Result, error) {
 	if err != nil {
 		return nil, err
 	}
+	if len(ress) == 0 {
+		return nil, geocode.ErrEmptyResult
+	}
 	res := ress[0]
 
 	return &geocode.Result{

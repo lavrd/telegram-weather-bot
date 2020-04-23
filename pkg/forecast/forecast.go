@@ -1,7 +1,7 @@
 package forecast
 
 type Forecast interface {
-	GetNow() (*Current, error)
+	GetCurrent() (*Current, error)
 }
 
 type Current struct {
