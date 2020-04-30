@@ -12,7 +12,7 @@ import (
 	"twb/pkg/utils/converter"
 )
 
-const baseURLFormat = "https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&units=%s&lang=%s&appid=%s"
+const baseURLFormat = "https://api.openweathermap.org/data/2.5/onecall?lat=%f&lon=%f&units=%s&lang=%s&appid=%s"
 
 var ErrUnknown = errors.New("unknown error")
 
@@ -38,8 +38,8 @@ type OpenWeatherMap struct {
 	httpClient *http.Client
 }
 
-func (owm *OpenWeatherMap) GetCurrent() (*forecast.Current, error) {
-	data, err := owm.req("55.751244", "37.618423", "imperial", "RU")
+func (owm *OpenWeatherMap) GetCurrent(lat, lon float64, units, lang string) (*forecast.Current, error) {
+	data, err := owm.req(lat, lon, units, lang)
 	if err != nil {
 		return nil, err
 	}
@@ -48,15 +48,15 @@ func (owm *OpenWeatherMap) GetCurrent() (*forecast.Current, error) {
 		Temp:         converter.FTS0(data.Current.Temp),
 		ApparentTemp: converter.FTS0(data.Current.FeelsLike),
 		Wind: &forecast.Wind{
-			Speed: 0,
-			Deg:   0,
+			Speed: converter.FTS0(data.Current.WindSpeed),
+			Deg:   data.Current.WindDeg,
 		},
 	}
 
 	for _, weather := range data.Current.Weather {
 		forecastData.Conditions = append(forecastData.Conditions, &forecast.Condition{
 			Summary: weather.Description,
-			Type:    parseCondition(weather.ID),
+			Type:    parseConditionByID(weather.ID),
 		})
 	}
 
@@ -70,7 +70,7 @@ func New(token string) *OpenWeatherMap {
 	}
 }
 
-func (owm *OpenWeatherMap) req(lat, lon, units, lang string) (*Data, error) {
+func (owm *OpenWeatherMap) req(lat, lon float64, units, lang string) (*Data, error) {
 	url := fmt.Sprintf(baseURLFormat, lat, lon, units, lang, owm.token)
 	res, err := owm.httpClient.Get(url)
 	if err != nil {
@@ -91,7 +91,7 @@ func (owm *OpenWeatherMap) req(lat, lon, units, lang string) (*Data, error) {
 	return data, nil
 }
 
-func parseCondition(id int) forecast.ConditionType {
+func parseConditionByID(id int) forecast.ConditionType {
 	switch {
 	case id >= 200 && id <= 232:
 		return forecast.Thunderstorm

@@ -13,9 +13,9 @@ const (
 // ru / en language dictionary
 var Dictionary = map[string]map[string]string{
 	"en": {
-		"mps": "mps",
-		"mph": "mph",
-		"IFL": "feels like",
+		message.MPS: "mps",
+		message.MPH: "mph",
+		"IFL":       "feels like",
 		"ZERO_RESULTS_LOCATION": "It is impossible to give a " +
 			"forecast for the specified coordinates",
 		message.Now:              "Now",
@@ -41,6 +41,7 @@ var Dictionary = map[string]map[string]string{
 		"mainMenu":               "Main menu",
 		"unknownError":           "Unknown error, please try later.",
 
+		// TODO: Leave here a message about telegram bot code on GitHub.
 		message.Help: "Bot show the *current* weather as well as *for today*, *tomorrow* and *the week*.\n\n" +
 			"*Now* - current weather\n" +
 			"*For today* - weather for today\n" +
@@ -54,8 +55,8 @@ var Dictionary = map[string]map[string]string{
 	},
 
 	"ru": {
-		"mps":                    "м/с",
-		"mph":                    "миль/ч",
+		message.MPS:              "м/с",
+		message.MPH:              "миль/ч",
 		"IFL":                    "Чувствуется как",
 		"ZERO_RESULTS_LOCATION":  "Невозможно выдать погоду по данным координатам",
 		message.Now:              "Сейчас",
@@ -81,6 +82,7 @@ var Dictionary = map[string]map[string]string{
 		"mainMenu":               "Главное меню",
 		"unknownError":           "Неизвестная ошибка, попробуйте позже.",
 
+		// TODO: Leave here a message about telegram bot code on GitHub.
 		message.Help: "Бот показывает *текущую* погоду, а также на *сегодня*, *завтра* и *неделю*.\n\n" +
 			"*Сейчас* - текущая погода\n" +
 			"*На сегодня* - погода на сегодня\n" +

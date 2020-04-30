@@ -12,4 +12,8 @@ const (
 	ChangeCityTo     = "changeCityTo"
 	Lang             = "lang"
 	EmptyCity        = "emptyCity"
+	MPS              = "mps"
+	MPH              = "mph"
+	C                = "°С"
+	F                = "°F"
 )

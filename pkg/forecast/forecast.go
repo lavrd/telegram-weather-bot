@@ -1,7 +1,7 @@
 package forecast
 
 type Forecast interface {
-	GetCurrent() (*Current, error)
+	GetCurrent(lat, lon float64, units, lang string) (*Current, error)
 }
 
 type Current struct {
@@ -12,7 +12,7 @@ type Current struct {
 }
 
 type Wind struct {
-	Speed float64
+	Speed string
 	Deg   int
 }
 
