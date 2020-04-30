@@ -22,7 +22,6 @@ var (
 	TriangularRuler = "📐"
 	Back            = "↩️"
 
-	// TODO: Mix emoji for diversity.
 	Icons = map[forecast.ConditionType]string{
 		forecast.Thunderstorm: "⛈",
 		forecast.Drizzle:      "🌧",
